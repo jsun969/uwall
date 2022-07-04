@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db.sqlite"
+}
+
+model Category {
+  id   String @id
+  name String
+  Post Post[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  show  Boolean
+  top   Boolean @default(false)
+  likes Int     @default(0)
+
+  name      String
+  anonymous Boolean
+  content   String
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String
+
+  comment Comment[]
+}
+
+model LovePost {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  show  Boolean
+  top   Boolean @default(false)
+  likes Int     @default(0)
+
+  anonymous  Boolean
+  fromName   String?
+  fromGender String?
+  toName     String
+  toGender   String
+  content    String
+
+  comment Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  show  Boolean
+  likes Int     @default(0)
+
+  name      String
+  anonymous Boolean
+  content   String
+
+  post   Post?   @relation(fields: [postId], references: [id])
+  postId String?
+
+  lovePost   LovePost? @relation(fields: [lovePostId], references: [id])
+  lovePostId String?
+
+  comments  Comment[] @relation("CommentComments")
+  comment   Comment?  @relation("CommentComments", fields: [commentId], references: [id])
+  commentId Int?
+}
