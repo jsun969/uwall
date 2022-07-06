@@ -1,9 +1,11 @@
+import type { AppRouter } from '../server';
 import createCache from '@emotion/cache';
 import type { EmotionCache } from '@emotion/react';
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
 import { pink, purple } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { withTRPC } from '@trpc/next';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -39,4 +41,12 @@ const MyApp = ({
   );
 };
 
-export default MyApp;
+export default withTRPC<AppRouter>({
+  ssr: true,
+  config() {
+    const url = process.env.VERCEL_URL
+      ? `https://${process.env.VERCEL_URL}/api/trpc`
+      : 'http://localhost:3000/api/trpc';
+    return { url };
+  },
+})(MyApp);
