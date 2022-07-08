@@ -8,9 +8,9 @@ datasource db {
 }
 
 model Category {
-  id   String @id
-  name String
-  Post Post[]
+  id    String @id
+  name  String
+  posts Post[]
 }
 
 model Post {
@@ -28,7 +28,7 @@ model Post {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
-  comment Comment[]
+  comments Comment[]
 }
 
 model LovePost {
@@ -46,7 +46,7 @@ model LovePost {
   toGender   String
   content    String
 
-  comment Comment[]
+  comments Comment[]
 }
 
 model Comment {
