@@ -11,7 +11,7 @@
     "lint": "next lint",
     "db:update": "prisma db push",
     "db:manage": "prisma studio",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    "format": "prettier --write \"**/**/*.{ts,tsx,js}\""
   },
   "dependencies": {
     "@emotion/cache": "^11.9.3",
@@ -49,7 +49,7 @@
     "typescript": "4.7.4"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{ts,tsx,js}": [
       "prettier --write"
     ]
   },
