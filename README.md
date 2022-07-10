@@ -20,5 +20,10 @@ pnpm install
 ### ▶️ 运行
 
 ```bash
+# 初始化数据库
+pnpm run db:update
+# 运行
 pnpm run dev
+# 数据库管理
+pnpm run db:manage
 ```
