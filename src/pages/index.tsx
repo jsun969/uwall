@@ -11,7 +11,6 @@ const Index: NextPage = () => {
       <Head>
         <title>万能墙</title>
         <meta name="description" content="万能墙" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
         <Button variant="contained">TEST</Button>
