@@ -17,9 +17,9 @@ model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  show  Boolean
-  top   Boolean @default(false)
-  likes Int     @default(0)
+  review Boolean
+  top    Boolean @default(false)
+  likes  Int     @default(0)
 
   name      String
   anonymous Boolean
@@ -35,9 +35,9 @@ model LovePost {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  show  Boolean
-  top   Boolean @default(false)
-  likes Int     @default(0)
+  review Boolean
+  top    Boolean @default(false)
+  likes  Int     @default(0)
 
   anonymous  Boolean
   fromName   String?
@@ -53,8 +53,8 @@ model Comment {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  show  Boolean
-  likes Int     @default(0)
+  review Boolean
+  likes  Int     @default(0)
 
   name      String
   anonymous Boolean
@@ -69,4 +69,15 @@ model Comment {
   comments  Comment[] @relation("CommentComments")
   comment   Comment?  @relation("CommentComments", fields: [commentId], references: [id])
   commentId Int?
+}
+
+model Settings {
+  id Int @id @default(0)
+
+  adminPassword String
+
+  school String
+
+  reviewPost    Boolean @default(true)
+  reviewComment Boolean @default(true)
 }
