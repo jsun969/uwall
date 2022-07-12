@@ -75,9 +75,9 @@ model Comment {
 model Settings {
   id Int @id @default(0)
 
-  adminPassword String
+  adminPassword String @default("")
 
-  school String
+  school String @default("")
 
   reviewPost    Boolean @default(true)
   reviewComment Boolean @default(true)
