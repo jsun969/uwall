@@ -81,4 +81,6 @@ model Settings {
 
   reviewPost    Boolean @default(true)
   reviewComment Boolean @default(true)
+
+  showLove Boolean @default(true)
 }
