@@ -38,6 +38,7 @@ const Layout: React.FC<LayoutProps> = ({
           <IconButton
             size="large"
             color="inherit"
+            edge="end"
             onClick={() => window.open('https://github.com/jsun969/uwall')}
           >
             <GitHub />
