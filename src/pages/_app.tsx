@@ -1,8 +1,9 @@
+import { useIsRouterChanging } from '../hooks/useIsRouterChanging';
 import type { AppRouter } from '../server';
 import createCache from '@emotion/cache';
 import type { EmotionCache } from '@emotion/react';
 import { CacheProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, LinearProgress } from '@mui/material';
 import { pink, purple } from '@mui/material/colors';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { withTRPC } from '@trpc/next';
@@ -28,6 +29,8 @@ const MyApp = ({
   emotionCache = clientSideEmotionCache,
   pageProps,
 }: MyAppProps) => {
+  const isRouterChanging = useIsRouterChanging();
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
@@ -36,6 +39,7 @@ const MyApp = ({
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        {isRouterChanging && <LinearProgress />}
         <Component {...pageProps} />
       </ThemeProvider>
     </CacheProvider>
