@@ -1,4 +1,4 @@
-import { createRouter } from './create-router';
+import { createRouter } from './createRouter';
 import { hello } from './routers/hello';
 
 export const appRouter = createRouter().merge(hello);

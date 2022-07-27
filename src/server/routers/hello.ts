@@ -1,4 +1,4 @@
-import { createRouter } from '../create-router';
+import { createRouter } from '../createRouter';
 import { z } from 'zod';
 
 export const hello = createRouter().query('hello', {
