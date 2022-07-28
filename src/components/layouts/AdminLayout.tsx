@@ -1,4 +1,4 @@
-import { GitHub, Menu, Rule, Settings } from '@mui/icons-material';
+import { Category, GitHub, Menu, Rule, Settings } from '@mui/icons-material';
 import {
   AppBar,
   Drawer,
@@ -17,8 +17,9 @@ import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 
 const adminNavList = [
-  { icon: <Settings />, text: '设置', path: '' },
-  { icon: <Rule />, text: '审核', path: '/review' },
+  { icon: <Settings />, text: '站点设置', path: '' },
+  { icon: <Rule />, text: '内容审核', path: '/review' },
+  { icon: <Category />, text: '分类管理', path: '/category' },
 ];
 
 interface AdminLayoutProps {
