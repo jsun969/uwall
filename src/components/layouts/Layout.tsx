@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({
   return (
     <>
       <Head>
-        <title>XXX万能墙{title && ` - ${title}`}</title>
+        <title>{title ? `XXX万能墙 - ${title}` : 'XXX万能墙'}</title>
       </Head>
       <AppBar position="sticky">
         <Toolbar>
