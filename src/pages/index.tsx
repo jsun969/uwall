@@ -1,13 +1,13 @@
-import styles from "./index.module.css";
-import { type NextPage } from "next";
-import Head from "next/head";
-import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { type NextPage } from 'next';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Head from 'next/head';
+import Link from 'next/link';
 
-import { trpc } from "../utils/trpc";
+import { trpc } from '../utils/trpc';
+import styles from './index.module.css';
 
 const Home: NextPage = () => {
-  const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  const hello = trpc.example.hello.useQuery({ text: 'from tRPC' });
 
   return (
     <>
@@ -47,7 +47,7 @@ const Home: NextPage = () => {
           </div>
           <div className={styles.showcaseContainer}>
             <p className={styles.showcaseText}>
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+              {hello.data ? hello.data.greeting : 'Loading tRPC query...'}
             </p>
             <AuthShowcase />
           </div>
@@ -77,7 +77,7 @@ const AuthShowcase: React.FC = () => {
         className={styles.loginButton}
         onClick={sessionData ? () => signOut() : () => signIn()}
       >
-        {sessionData ? "Sign out" : "Sign in"}
+        {sessionData ? 'Sign out' : 'Sign in'}
       </button>
     </div>
   );
