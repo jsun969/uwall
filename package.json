@@ -1,59 +1,41 @@
 {
   "name": "uwall",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "postinstall": "simple-git-hooks",
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "dev": "next dev",
+    "postinstall": "prisma generate",
     "lint": "next lint",
-    "db:update": "prisma db push",
-    "db:manage": "prisma studio",
-    "format": "prettier --write \"**/**/*.{ts,tsx,js}\""
+    "start": "next start"
   },
   "dependencies": {
-    "@emotion/cache": "^11.9.3",
-    "@emotion/react": "^11.9.3",
-    "@emotion/server": "^11.4.0",
-    "@emotion/styled": "^11.9.3",
-    "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.8.6",
-    "@prisma/client": "^4.0.0",
-    "@trpc/client": "^9.25.3",
-    "@trpc/next": "^9.25.3",
-    "@trpc/react": "^9.25.3",
-    "@trpc/server": "^9.25.3",
-    "next": "12.2.0",
+    "@next-auth/prisma-adapter": "^1.0.5",
+    "@prisma/client": "^4.5.0",
+    "@tanstack/react-query": "^4.16.0",
+    "@trpc/client": "^10.0.0",
+    "@trpc/next": "^10.0.0",
+    "@trpc/react-query": "^10.0.0",
+    "@trpc/server": "^10.0.0",
+    "next": "13.0.2",
+    "next-auth": "^4.18.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-query": "^3.39.1",
-    "zod": "^3.17.3"
+    "superjson": "1.9.1",
+    "zod": "^3.18.0"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
-    "@types/node": "18.0.0",
-    "@types/react": "18.0.14",
-    "@types/react-dom": "18.0.5",
-    "@typescript-eslint/eslint-plugin": "^5.30.3",
-    "@typescript-eslint/parser": "^5.30.3",
-    "eslint": "8.19.0",
-    "eslint-config-next": "12.2.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "lint-staged": "^13.0.3",
-    "prettier": "^2.7.1",
-    "prisma": "^4.0.0",
-    "simple-git-hooks": "^2.8.0",
-    "typescript": "4.7.4"
+    "@types/node": "^18.0.0",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.33.0",
+    "@typescript-eslint/parser": "^5.33.0",
+    "eslint": "^8.26.0",
+    "eslint-config-next": "13.0.2",
+    "prisma": "^4.5.0",
+    "typescript": "^4.8.4"
   },
-  "lint-staged": {
-    "*.{ts,tsx,js}": [
-      "prettier --write"
-    ]
-  },
-  "simple-git-hooks": {
-    "pre-commit": "pnpm exec lint-staged"
+  "ct3aMetadata": {
+    "initVersion": "6.11.4"
   }
 }
