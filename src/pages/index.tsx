@@ -1,35 +1,16 @@
-import { Button } from '@mui/material';
 import { type NextPage } from 'next';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import Head from 'next/head';
 
-import { env } from '../env/client.mjs';
+import Layout from '../components/Layout';
 
 const Home: NextPage = () => {
-  const { data: session, status } = useSession();
-  if (status === 'authenticated') {
-    return (
-      <>
-        <div>Welcome {session.user?.email}</div>
-        <Button
-          variant="contained"
-          onClick={() => {
-            signOut();
-            // FIXME 需要访问登出链接使账号完全登出
-            window.location.href = env.NEXT_PUBLIC_AUTHING_SIGN_OUT;
-          }}
-        >
-          Logout
-        </Button>
-      </>
-    );
-  }
   return (
-    <>
-      <div>Please Login</div>
-      <Button variant="contained" onClick={() => signIn('authing')}>
-        Login
-      </Button>
-    </>
+    <Layout>
+      <Head>
+        <title>校园万能墙</title>
+      </Head>
+      <h1 style={{ textAlign: 'center', marginTop: 300 }}>内测中</h1>
+    </Layout>
   );
 };
 
