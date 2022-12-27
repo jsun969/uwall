@@ -1,30 +1,30 @@
-// Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth, { type NextAuthOptions } from 'next-auth';
-import DiscordProvider from 'next-auth/providers/discord';
 
 import { env } from '../../../env/server.mjs';
 import { prisma } from '../../../server/db/client';
 
 export const authOptions: NextAuthOptions = {
-  // Include user.id on session
-  callbacks: {
-    session({ session, user }) {
-      if (session.user) {
-        session.user.id = user.id;
-      }
-      return session;
-    },
-  },
-  // Configure one or more authentication providers
   adapter: PrismaAdapter(prisma),
   providers: [
-    DiscordProvider({
-      clientId: env.DISCORD_CLIENT_ID,
-      clientSecret: env.DISCORD_CLIENT_SECRET,
-    }),
-    // ...add more providers here
+    {
+      id: 'authing',
+      name: 'AuthingProvider',
+      type: 'oauth',
+      wellKnown: env.AUTHING_WELL_KNOWN,
+      clientId: env.AUTHING_APP_ID,
+      clientSecret: env.AUTHING_APP_SECRET,
+      authorization: { params: { scope: 'openid email profile' } },
+      idToken: true,
+      profile: (profile) => ({
+        id: profile.sub,
+        email: profile.email,
+        name: profile.name,
+        image: profile.picture,
+      }),
+    },
   ],
+  secret: env.NEXTAUTH_SECRET,
 };
 
 export default NextAuth(authOptions);

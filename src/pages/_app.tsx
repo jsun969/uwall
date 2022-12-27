@@ -9,7 +9,6 @@ import Head from 'next/head';
 import createEmotionCache from '../lib/createEmotionCache';
 import theme from '../lib/theme';
 import { trpc } from '../lib/trpc';
-import '../styles/globals.css';
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
