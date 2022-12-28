@@ -7,13 +7,13 @@ import {
   Menu,
   MenuItem,
   Toolbar,
-  Typography,
 } from '@mui/material';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 
-import { env } from '../env/client.mjs';
+import { env } from '../../env/client.mjs';
+import TitleWithGitHub from './TitleWithGitHub';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const { data: session, status } = useSession();
@@ -26,9 +26,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
     <>
       <AppBar position="sticky">
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            校园万能墙
-          </Typography>
+          <TitleWithGitHub title="校园万能墙" />
           {status === 'authenticated' ? (
             <IconButton
               size="large"

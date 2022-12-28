@@ -1,15 +1,11 @@
-import { Box, Typography, Link } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import { type NextPage } from 'next';
-import Head from 'next/head';
 
-import Layout from '../components/Layout';
+import Layout from '../components/layout/Layout';
 
-const Home: NextPage = () => {
+const HomePage: NextPage = () => {
   return (
     <Layout>
-      <Head>
-        <title>校园万能墙</title>
-      </Head>
       <Box
         sx={{
           textAlign: 'center',
@@ -29,4 +25,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default HomePage;
