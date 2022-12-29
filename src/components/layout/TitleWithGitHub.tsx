@@ -1,18 +1,7 @@
 import { GitHub } from '@mui/icons-material';
 import { Box, IconButton, Typography } from '@mui/material';
 import Head from 'next/head';
-
-const GitHubButton = () => {
-  return (
-    <IconButton
-      size="large"
-      color="inherit"
-      onClick={() => window.open('https://github.com/jsun969/uwall')}
-    >
-      <GitHub />
-    </IconButton>
-  );
-};
+import Link from 'next/link';
 
 const TitleWithGitHub = ({ title }: { title: string }) => {
   return (
@@ -21,10 +10,18 @@ const TitleWithGitHub = ({ title }: { title: string }) => {
         <title>{title}</title>
       </Head>
       <Typography variant="h6" component="div" sx={{ mr: 1 }}>
-        {title}
+        <Link href="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          {title}
+        </Link>
       </Typography>
       <Box sx={{ flexGrow: 1 }}>
-        <GitHubButton />
+        <IconButton
+          size="large"
+          color="inherit"
+          onClick={() => window.open('https://github.com/jsun969/uwall')}
+        >
+          <GitHub />
+        </IconButton>
       </Box>
     </>
   );

@@ -1,22 +1,15 @@
-import { AccountCircle, Email, Logout, Tune } from '@mui/icons-material';
-import {
-  AppBar,
-  Button,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Toolbar,
-} from '@mui/material';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { AccountCircle } from '@mui/icons-material';
+import { AppBar, Button, Container, IconButton, Toolbar } from '@mui/material';
+import { useSession } from 'next-auth/react';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 
-import { env } from '../../env/client.mjs';
+import { authingSignIn } from '../../utils/authingSignIn';
 import TitleWithGitHub from './TitleWithGitHub';
+import UserMenu from './UserMenu';
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   const [userMenuAnchorEl, setUserMenuAnchorEl] = useState<null | HTMLElement>(
     null,
@@ -36,43 +29,19 @@ const Layout = ({ children }: { children: ReactNode }) => {
               <AccountCircle />
             </IconButton>
           ) : (
-            <Button color="inherit" onClick={() => signIn('authing')}>
+            <Button color="inherit" onClick={() => authingSignIn()}>
               登录 / 注册
             </Button>
           )}
         </Toolbar>
       </AppBar>
-      <Menu
+      <UserMenu
         anchorEl={userMenuAnchorEl}
-        open={!!userMenuAnchorEl}
         onClose={() => setUserMenuAnchorEl(null)}
-      >
-        <MenuItem divider>
-          <ListItemIcon>
-            <Email fontSize="small" />
-          </ListItemIcon>
-          {session?.user?.email}
-        </MenuItem>
-        <MenuItem>
-          <ListItemIcon>
-            <Tune fontSize="small" />
-          </ListItemIcon>
-          控制台
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            signOut();
-            // FIXME 需要访问登出链接使账号完全登出
-            window.location.href = env.NEXT_PUBLIC_AUTHING_SIGN_OUT;
-          }}
-        >
-          <ListItemIcon>
-            <Logout fontSize="small" />
-          </ListItemIcon>
-          退出登录
-        </MenuItem>
-      </Menu>
-      {children}
+      />
+      <Container maxWidth="sm" sx={{ pt: 2 }}>
+        {children}
+      </Container>
     </>
   );
 };
