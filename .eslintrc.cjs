@@ -1,10 +1,10 @@
 module.exports = {
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "project": "./tsconfig.json"
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: './tsconfig.json',
   },
-  "plugins": ["@typescript-eslint"],
-  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
+  plugins: ['@typescript-eslint'],
+  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended'],
   ignorePatterns: ['*.cjs'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
@@ -16,6 +16,7 @@ module.exports = {
       { ignoreRestSiblings: true },
     ],
     '@typescript-eslint/consistent-type-imports': 'error',
+    '@typescript-eslint/no-non-null-assertion': 'off',
     'no-console': 'error',
   },
-}
+};
