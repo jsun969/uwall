@@ -14,12 +14,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Example {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 // Necessary for Next auth
 model Account {
   id                String  @id @default(cuid())
@@ -55,6 +49,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+
+  activeExpires DateTime @default("2005-03-12T00:00:00+00:00")
+
+  School School?
 }
 
 model VerificationToken {
@@ -63,4 +61,73 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model School {
+  id   String @id @default(cuid())
+  name String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  postVerify Boolean @default(true)
+
+  Post     Post[]
+  LovePost LovePost[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  school   School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  schoolId String
+
+  review Boolean
+  likes  Int     @default(0)
+
+  category  String
+  anonymous Boolean
+  name      String
+  content   String
+
+  comments Comment[]
+}
+
+model LovePost {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  school   School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  schoolId String
+
+  review Boolean
+  likes  Int     @default(0)
+
+  anonymous  Boolean
+  fromName   String?
+  fromGender String?
+  toName     String
+  toGender   String?
+  content    String
+
+  comments Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  review Boolean
+  likes  Int     @default(0)
+
+  name      String
+  anonymous Boolean
+  content   String
+
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String?
+
+  lovePost   LovePost? @relation(fields: [lovePostId], references: [id], onDelete: Cascade)
+  lovePostId String?
 }
