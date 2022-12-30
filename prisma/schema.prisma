@@ -64,8 +64,8 @@ model VerificationToken {
 }
 
 model School {
-  id   String @id @default(cuid())
-  name String
+  id       String @id @default(cuid())
+  wallName String
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
@@ -83,7 +83,7 @@ model Post {
   school   School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   schoolId String
 
-  review Boolean
+  verify Boolean
   likes  Int     @default(0)
 
   category  String
@@ -101,7 +101,7 @@ model LovePost {
   school   School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   schoolId String
 
-  review Boolean
+  verify Boolean
   likes  Int     @default(0)
 
   anonymous  Boolean
@@ -118,7 +118,7 @@ model Comment {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  review Boolean
+  verify Boolean
   likes  Int     @default(0)
 
   name      String
