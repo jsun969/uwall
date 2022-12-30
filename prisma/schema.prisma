@@ -52,7 +52,7 @@ model User {
 
   activeExpires DateTime @default("2005-03-12T00:00:00+00:00")
 
-  School School?
+  school School?
 }
 
 model VerificationToken {
@@ -72,8 +72,8 @@ model School {
 
   postVerify Boolean @default(true)
 
-  Post     Post[]
-  LovePost LovePost[]
+  posts     Post[]
+  lovePosts LovePost[]
 }
 
 model Post {
