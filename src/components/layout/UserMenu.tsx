@@ -23,7 +23,7 @@ const UserMenu = ({ anchorEl, onClose }: UserMenuProps) => {
         {session?.user?.email}
       </MenuItem>
       <Link
-        href="console"
+        href="/console"
         style={{ textDecoration: 'none', color: theme.palette.text.primary }}
       >
         <MenuItem>
