@@ -2,11 +2,13 @@ import { type inferAsyncReturnType } from '@trpc/server';
 import { type CreateNextContextOptions } from '@trpc/server/adapters/next';
 import { type Session } from 'next-auth';
 
-import { getServerAuthSession } from '../common/get-server-auth-session';
+import type { Role } from '../common/getServerAuth';
+import { getServerAuth } from '../common/getServerAuth';
 import { prisma } from '../db/client';
 
 type CreateContextOptions = {
   session: Session | null;
+  role: Role;
 };
 
 /** Use this helper for:
@@ -15,10 +17,7 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  **/
 export const createContextInner = async (opts: CreateContextOptions) => {
-  return {
-    session: opts.session,
-    prisma,
-  };
+  return { session: opts.session, prisma, role: opts.role };
 };
 
 /**
@@ -29,11 +28,9 @@ export const createContext = async (opts: CreateNextContextOptions) => {
   const { req, res } = opts;
 
   // Get the session from the server using the unstable_getServerSession wrapper function
-  const session = await getServerAuthSession({ req, res });
+  const authContent = await getServerAuth({ req, res });
 
-  return await createContextInner({
-    session,
-  });
+  return await createContextInner(authContent);
 };
 
 export type Context = inferAsyncReturnType<typeof createContext>;

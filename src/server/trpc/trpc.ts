@@ -1,6 +1,8 @@
 import { initTRPC, TRPCError } from '@trpc/server';
+import dayjs from 'dayjs';
 import superjson from 'superjson';
 
+import { prisma } from '../db/client';
 import { type Context } from './context';
 
 const t = initTRPC.context<Context>().create({
@@ -12,28 +14,37 @@ const t = initTRPC.context<Context>().create({
 
 export const router = t.router;
 
-/**
- * Unprotected procedure
- **/
 export const publicProcedure = t.procedure;
 
-/**
- * Reusable middleware to ensure
- * users are logged in
- */
-const isAuthed = t.middleware(({ ctx, next }) => {
+const isAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
+  if (ctx.role !== 'super') {
+    const user = await prisma.user.findUnique({
+      where: { email: ctx.session!.user!.email! },
+      select: { activeExpires: true },
+    });
+    const isActive = dayjs().isBefore(user?.activeExpires);
+    if (!isActive) {
+      throw new TRPCError({ code: 'UNAUTHORIZED' });
+    }
+  }
   return next({
     ctx: {
-      // infers the `session` as non-nullable
-      session: { ...ctx.session, user: ctx.session.user },
+      email: ctx.session!.user!.email!,
+      role: ctx.role,
     },
   });
 });
 
-/**
- * Protected procedure
- **/
 export const protectedProcedure = t.procedure.use(isAuthed);
+
+const isSuperAdmin = t.middleware(({ ctx, next }) => {
+  if (ctx.role !== 'super') {
+    throw new TRPCError({ code: 'UNAUTHORIZED' });
+  }
+  return next();
+});
+
+export const superProtectedProcedure = t.procedure.use(isSuperAdmin);

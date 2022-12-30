@@ -21,7 +21,8 @@ export const serverSchema = z.object({
   ),
   AUTHING_APP_ID: z.string(),
   AUTHING_APP_SECRET: z.string(),
-  AUTHING_WELL_KNOWN: z.string(),
+  AUTHING_WELL_KNOWN: z.string().url(),
+  SUPER_ADMIN_EMAIL: z.string().email(),
 });
 
 /**
@@ -31,7 +32,7 @@ export const serverSchema = z.object({
  */
 export const clientSchema = z.object({
   // NEXT_PUBLIC_CLIENTVAR: z.string(),
-  NEXT_PUBLIC_AUTHING_SIGN_OUT: z.string(),
+  NEXT_PUBLIC_AUTHING_SIGN_OUT: z.string().url(),
 });
 
 /**
