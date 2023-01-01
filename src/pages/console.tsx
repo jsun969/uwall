@@ -5,7 +5,6 @@ import type { GetServerSideProps, NextPage } from 'next';
 import { default as NextLink } from 'next/link';
 import { useForm } from 'react-hook-form';
 import { SwitchElement, TextFieldElement } from 'react-hook-form-mui';
-import { toast } from 'react-toastify';
 import { z } from 'zod';
 
 import { ActiveAlert, InactiveAlert } from '../components/console/ActiveAlert';
@@ -13,6 +12,7 @@ import Layout from '../components/layout/Layout';
 import { trpc } from '../lib/trpc';
 import { prisma } from '../server/db/client';
 import { getServerAuth } from '../server/utils/getServerAuth';
+import { toast } from '../utils/toast';
 
 interface ConsolePageProps {
   activeExpires: string;
@@ -79,13 +79,16 @@ const ConsolePage: NextPage<ConsolePageProps> = ({
     resolver: zodResolver(consoleFormSchema),
   });
 
-  const { mutate } = trpc.admin.updateWall.useMutation({
+  const { mutate, isLoading } = trpc.admin.updateWall.useMutation({
+    onMutate() {
+      toast.loading({ id: 'updateWall', message: '修改中...' });
+    },
     onSuccess(_, variables) {
-      toast('修改成功', { type: 'success' });
+      toast.success({ id: 'updateWall', message: '修改成功' });
       reset(variables);
     },
     onError() {
-      toast('修改失败', { type: 'error' });
+      toast.error({ id: 'updateWall', message: '修改失败' });
     },
   });
 
@@ -129,7 +132,7 @@ const ConsolePage: NextPage<ConsolePageProps> = ({
             <Button
               type="submit"
               variant="contained"
-              disabled={!isActive || !isDirty}
+              disabled={!isActive || !isDirty || isLoading}
             >
               保存
             </Button>
