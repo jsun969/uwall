@@ -67,8 +67,8 @@ model School {
   id       String @id @default(cuid())
   wallName String
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  user      User   @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+  userEmail String @unique
 
   postVerify Boolean @default(true)
 

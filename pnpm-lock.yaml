@@ -5,6 +5,7 @@ specifiers:
   '@emotion/react': ^11.10.5
   '@emotion/server': ^11.10.0
   '@emotion/styled': ^11.10.5
+  '@hookform/resolvers': ^2.9.10
   '@mui/icons-material': ^5.11.0
   '@mui/material': ^5.11.1
   '@mui/x-date-pickers': ^5.0.12
@@ -32,18 +33,19 @@ specifiers:
   react: 18.2.0
   react-dom: 18.2.0
   react-hook-form: ^7.41.2
-  react-hook-form-mui: ^5.12.0
+  react-hook-form-mui: ^5.12.2
   react-toastify: ^9.1.1
   simple-git-hooks: ^2.8.1
   superjson: 1.9.1
   typescript: ^4.8.4
-  zod: ^3.18.0
+  zod: ^3.20.2
 
 dependencies:
   '@emotion/cache': 11.10.5
   '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
   '@emotion/server': 11.10.0
   '@emotion/styled': 11.10.5_qvatmowesywn4ye42qoh247szu
+  '@hookform/resolvers': 2.9.10_react-hook-form@7.41.2
   '@mui/icons-material': 5.11.0_q2xbhzmvmqgan5d7ygs6qjfrou
   '@mui/material': 5.11.1_lskpmcsdi7ipu6qpuapyu56ihm
   '@mui/x-date-pickers': 5.0.12_eyw2zle6to5rgfukywyeurtntu
@@ -60,7 +62,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-hook-form: 7.41.2_react@18.2.0
-  react-hook-form-mui: 5.12.0_53v2egrjqjgixcuqnegqbheteq
+  react-hook-form-mui: 5.12.2_53v2egrjqjgixcuqnegqbheteq
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
   superjson: 1.9.1
   zod: 3.20.2
@@ -553,6 +555,14 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@hookform/resolvers/2.9.10_react-hook-form@7.41.2:
+    resolution: {integrity: sha512-JIL1DgJIlH9yuxcNGtyhsWX/PgNltz+5Gr6+8SX9fhXc/hPbEIk6wPI82nhgvp3uUb6ZfAM5mqg/x7KR7NAb+A==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+    dependencies:
+      react-hook-form: 7.41.2_react@18.2.0
+    dev: false
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
@@ -3123,8 +3133,8 @@ packages:
       scheduler: 0.23.0
     dev: false
 
-  /react-hook-form-mui/5.12.0_53v2egrjqjgixcuqnegqbheteq:
-    resolution: {integrity: sha512-l/GzB+IiIRX7ZA49NS56M+0xOfL03bn5G5lELTd5CtsoOcyFEdOx1rDwHDubEfDFraPW6ulkUDfdydU/8tDueQ==}
+  /react-hook-form-mui/5.12.2_53v2egrjqjgixcuqnegqbheteq:
+    resolution: {integrity: sha512-EmkJROfW31zcOBLOzJ+150tFfoVaSXiRmPmNBpAPBaWgWMy7xyP+U9G7DF6MYW0IMP2DPAxgbtr1+HLZxtH90w==}
     engines: {node: '>=14'}
     peerDependencies:
       '@mui/icons-material': '>= 5.x <6'

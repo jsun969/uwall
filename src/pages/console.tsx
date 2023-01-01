@@ -1,28 +1,25 @@
-import {
-  Button,
-  FormControlLabel,
-  Link,
-  Stack,
-  Switch,
-  Typography,
-} from '@mui/material';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Link, Stack, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import type { GetServerSideProps, NextPage } from 'next';
 import { default as NextLink } from 'next/link';
-import { Controller, useForm } from 'react-hook-form';
-import { TextFieldElement } from 'react-hook-form-mui';
+import { useForm } from 'react-hook-form';
+import { SwitchElement, TextFieldElement } from 'react-hook-form-mui';
+import { toast } from 'react-toastify';
+import { z } from 'zod';
 
 import { ActiveAlert, InactiveAlert } from '../components/console/ActiveAlert';
 import Layout from '../components/layout/Layout';
-import { getServerAuth } from '../server/common/getServerAuth';
+import { trpc } from '../lib/trpc';
 import { prisma } from '../server/db/client';
+import { getServerAuth } from '../server/utils/getServerAuth';
 
 interface ConsolePageProps {
   activeExpires: string;
   haveWall: boolean;
-  wallName: string | null;
-  verifyPost: boolean | null;
-  schoolId: string | null;
+  wallName?: string;
+  postVerify?: boolean;
+  schoolId?: string;
 }
 
 export const getServerSideProps: GetServerSideProps<ConsolePageProps> = async (
@@ -45,25 +42,51 @@ export const getServerSideProps: GetServerSideProps<ConsolePageProps> = async (
     props: {
       activeExpires: user!.activeExpires.toString(),
       haveWall: !!user?.school,
-      wallName: user?.school?.wallName ?? null,
-      verifyPost: user?.school?.postVerify ?? null,
-      schoolId: user?.school?.id ?? null,
+      wallName: user?.school?.wallName,
+      postVerify: user?.school?.postVerify,
+      schoolId: user?.school?.id,
     },
   };
 };
+
+export const consoleFormSchema = z.object({
+  wallName: z
+    .string()
+    .min(1, { message: '请输入万能墙名' })
+    .max(14, { message: '长度需小于15个字符' })
+    .optional(),
+  postVerify: z.boolean().optional(),
+});
 
 const ConsolePage: NextPage<ConsolePageProps> = ({
   activeExpires,
   haveWall,
   wallName,
-  verifyPost,
+  postVerify,
   schoolId,
 }) => {
   const activeExpiresDayjs = dayjs(activeExpires);
   const isActive = dayjs().isBefore(activeExpiresDayjs);
 
-  const { control, handleSubmit } = useForm({
-    defaultValues: { wallName, verifyPost },
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { isDirty },
+    watch,
+  } = useForm({
+    defaultValues: { wallName, postVerify },
+    resolver: zodResolver(consoleFormSchema),
+  });
+
+  const { mutate } = trpc.admin.updateWall.useMutation({
+    onSuccess(_, variables) {
+      toast('修改成功', { type: 'success' });
+      reset(variables);
+    },
+    onError() {
+      toast('修改失败', { type: 'error' });
+    },
   });
 
   return (
@@ -71,7 +94,7 @@ const ConsolePage: NextPage<ConsolePageProps> = ({
       <Stack
         spacing={3}
         component="form"
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit((data) => mutate(data))}
       >
         <Typography variant="h4">控制台</Typography>
         {isActive ? (
@@ -95,26 +118,19 @@ const ConsolePage: NextPage<ConsolePageProps> = ({
               label="万能墙名"
               disabled={!isActive}
             />
-            {/* TODO 等PR合并后改成rhf-mui的switch */}
-            {/* https://github.com/dohomi/react-hook-form-mui/pull/110 */}
-            {/* <SwitchElement
+            <SwitchElement
               control={control}
-              name="verifyPost"
-              label="审核"
+              name="postVerify"
+              label={
+                watch('postVerify') ? '审核（请到您的站点内审核帖子）' : '审核'
+              }
               disabled={!isActive}
-            /> */}
-            <Controller
-              name="verifyPost"
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  disabled={!isActive}
-                  control={<Switch checked={!!field.value} {...field} />}
-                  label="审核"
-                />
-              )}
             />
-            <Button type="submit" variant="contained" disabled={!isActive}>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={!isActive || !isDirty}
+            >
               保存
             </Button>
           </>

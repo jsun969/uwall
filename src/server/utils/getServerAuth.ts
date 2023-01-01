@@ -6,10 +6,6 @@ import { authOptions } from '../../pages/api/auth/[...nextauth]';
 
 export type Role = 'super' | 'admin';
 
-/**
- * Wrapper for unstable_getServerSession https://next-auth.js.org/configuration/nextjs
- * See example usage in trpc createContext or the restricted API route
- */
 export const getServerAuth = async (ctx: {
   req: GetServerSidePropsContext['req'];
   res: GetServerSidePropsContext['res'];

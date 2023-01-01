@@ -16,6 +16,7 @@
     "@emotion/react": "^11.10.5",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.5",
+    "@hookform/resolvers": "^2.9.10",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.1",
     "@mui/x-date-pickers": "^5.0.12",
@@ -32,10 +33,10 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.41.2",
-    "react-hook-form-mui": "^5.12.0",
+    "react-hook-form-mui": "^5.12.2",
     "react-toastify": "^9.1.1",
     "superjson": "1.9.1",
-    "zod": "^3.18.0"
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.0.0",
