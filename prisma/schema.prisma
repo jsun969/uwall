@@ -118,8 +118,7 @@ model Comment {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  verify Boolean
-  likes  Int     @default(0)
+  likes Int @default(0)
 
   name      String
   anonymous Boolean
