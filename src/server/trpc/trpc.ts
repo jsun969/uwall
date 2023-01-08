@@ -30,7 +30,7 @@ const isAuthed = t.middleware(async ({ ctx, next }) => {
       throw new TRPCError({ code: 'UNAUTHORIZED' });
     }
   }
-  return next();
+  return next({ ctx: { email: ctx.session.user.email!, ...ctx } });
 });
 
 export const protectedProcedure = t.procedure.use(isAuthed);

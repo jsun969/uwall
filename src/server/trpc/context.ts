@@ -17,7 +17,7 @@ type CreateContextOptions = {
  * @see https://create.t3.gg/en/usage/trpc#-servertrpccontextts
  **/
 export const createContextInner = async (opts: CreateContextOptions) => {
-  return { session: opts.session, prisma, role: opts.role };
+  return { prisma, ...opts };
 };
 
 /**

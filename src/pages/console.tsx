@@ -11,25 +11,34 @@ import { ActiveAlert, InactiveAlert } from '../components/console/ActiveAlert';
 import Layout from '../components/layout/Layout';
 import { trpc } from '../lib/trpc';
 import { prisma } from '../server/db/client';
+import { checkUserActive } from '../server/utils/checkUserActive';
 import { getServerAuth } from '../server/utils/getServerAuth';
 import { toast } from '../utils/toast';
 
 interface ConsolePageProps {
   activeExpires: string;
   haveWall: boolean;
-  wallName?: string;
-  postVerify?: boolean;
-  schoolId?: string;
+  wallName: string | null;
+  postVerify: boolean | null;
+  schoolId: string | null;
 }
 
 export const getServerSideProps: GetServerSideProps<ConsolePageProps> = async (
   ctx,
 ) => {
-  const { session } = await getServerAuth(ctx);
+  const { session, role } = await getServerAuth(ctx);
   if (!session) {
     return {
       redirect: {
         destination: '/',
+        permanent: false,
+      },
+    };
+  }
+  if (role === 'super') {
+    return {
+      redirect: {
+        destination: '/super',
         permanent: false,
       },
     };
@@ -42,9 +51,9 @@ export const getServerSideProps: GetServerSideProps<ConsolePageProps> = async (
     props: {
       activeExpires: user!.activeExpires.toString(),
       haveWall: !!user?.school,
-      wallName: user?.school?.wallName,
-      postVerify: user?.school?.postVerify,
-      schoolId: user?.school?.id,
+      wallName: user?.school?.wallName ?? null,
+      postVerify: user?.school?.postVerify ?? null,
+      schoolId: user?.school?.id ?? null,
     },
   };
 };
@@ -66,7 +75,7 @@ const ConsolePage: NextPage<ConsolePageProps> = ({
   schoolId,
 }) => {
   const activeExpiresDayjs = dayjs(activeExpires);
-  const isActive = dayjs().isBefore(activeExpiresDayjs);
+  const isActive = checkUserActive(activeExpiresDayjs);
 
   const {
     control,
@@ -97,7 +106,9 @@ const ConsolePage: NextPage<ConsolePageProps> = ({
       <Stack
         spacing={3}
         component="form"
-        onSubmit={handleSubmit((data) => mutate(data))}
+        onSubmit={handleSubmit((form) => {
+          mutate({ wallName: form.wallName!, postVerify: form.postVerify! });
+        })}
       >
         <Typography variant="h4">控制台</Typography>
         {isActive ? (
