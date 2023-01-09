@@ -2,10 +2,10 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 
 import { env } from '../../../env/server.mjs';
-import { prisma } from '../../../server/db/client';
+import { p } from '../../../server/db/client';
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(p),
   providers: [
     {
       id: 'authing',

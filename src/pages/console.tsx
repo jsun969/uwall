@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { ActiveAlert, InactiveAlert } from '../components/console/ActiveAlert';
 import Layout from '../components/layout/Layout';
 import { trpc } from '../lib/trpc';
-import { prisma } from '../server/db/client';
+import { p } from '../server/db/client';
 import { checkUserActive } from '../server/utils/checkUserActive';
 import { getServerAuth } from '../server/utils/getServerAuth';
 import { toast } from '../utils/toast';
@@ -43,7 +43,7 @@ export const getServerSideProps: GetServerSideProps<ConsolePageProps> = async (
       },
     };
   }
-  const user = await prisma.user.findUnique({
+  const user = await p.user.findUnique({
     where: { email: session!.user!.email! },
     select: { activeExpires: true, school: true },
   });

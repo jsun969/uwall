@@ -2,7 +2,7 @@ import { initTRPC, TRPCError } from '@trpc/server';
 import dayjs from 'dayjs';
 import superjson from 'superjson';
 
-import { prisma } from '../db/client';
+import { p } from '../db/client';
 import { type Context } from './context';
 
 const t = initTRPC.context<Context>().create({
@@ -21,7 +21,7 @@ const isAuthed = t.middleware(async ({ ctx, next }) => {
     throw new TRPCError({ code: 'UNAUTHORIZED' });
   }
   if (ctx.role !== 'super') {
-    const user = await prisma.user.findUnique({
+    const user = await p.user.findUnique({
       where: { email: ctx.session!.user!.email! },
       select: { activeExpires: true },
     });

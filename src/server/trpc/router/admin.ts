@@ -1,9 +1,10 @@
 import { consoleFormSchema } from '../../../pages/console';
+import { p } from '../../db/client';
 import { protectedProcedure, router } from '../trpc';
 
 export const adminRouter = router({
   getUserInfo: protectedProcedure.query(async ({ ctx }) => {
-    const user = await ctx.prisma.user.findUnique({
+    const user = await p.user.findUnique({
       where: { email: ctx.email },
     });
     return {
@@ -14,7 +15,7 @@ export const adminRouter = router({
   updateWall: protectedProcedure
     .input(consoleFormSchema)
     .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.school.update({
+      await p.school.update({
         where: { userEmail: ctx.email },
         data: input,
       });
