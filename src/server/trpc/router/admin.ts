@@ -1,9 +1,9 @@
 import { consoleFormSchema } from '../../../pages/console';
 import { p } from '../../db/client';
-import { protectedProcedure, router } from '../trpc';
+import { adminProcedure, router, unexpiredAdminProcedure } from '../trpc';
 
 export const adminRouter = router({
-  getUserInfo: protectedProcedure.query(async ({ ctx }) => {
+  getUserInfo: adminProcedure.query(async ({ ctx }) => {
     const user = await p.user.findUnique({
       where: { email: ctx.email },
     });
@@ -12,7 +12,7 @@ export const adminRouter = router({
       activeExpires: user!.activeExpires,
     };
   }),
-  updateWall: protectedProcedure
+  updateWall: unexpiredAdminProcedure
     .input(consoleFormSchema)
     .mutation(async ({ ctx, input }) => {
       await p.school.update({

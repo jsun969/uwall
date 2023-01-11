@@ -20,19 +20,20 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <AppBar position="sticky">
         <Toolbar>
           <TitleWithGitHub title="校园万能墙" />
-          {status === 'authenticated' ? (
-            <IconButton
-              size="large"
-              color="inherit"
-              onClick={(e) => setUserMenuAnchorEl(e.currentTarget)}
-            >
-              <AccountCircle />
-            </IconButton>
-          ) : (
-            <Button color="inherit" onClick={() => authingSignIn()}>
-              登录 / 注册
-            </Button>
-          )}
+          {status !== 'loading' &&
+            (status === 'authenticated' ? (
+              <IconButton
+                size="large"
+                color="inherit"
+                onClick={(e) => setUserMenuAnchorEl(e.currentTarget)}
+              >
+                <AccountCircle />
+              </IconButton>
+            ) : (
+              <Button color="inherit" onClick={() => authingSignIn()}>
+                登录 / 注册
+              </Button>
+            ))}
         </Toolbar>
       </AppBar>
       <UserMenu

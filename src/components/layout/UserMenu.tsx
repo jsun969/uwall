@@ -22,7 +22,9 @@ interface UserMenuProps {
 
 const UserMenu = ({ anchorEl, onClose }: UserMenuProps) => {
   const { data: session } = useSession();
-  const { data: userInfo } = trpc.admin.getUserInfo.useQuery();
+  const { data: userInfo } = trpc.admin.getUserInfo.useQuery(undefined, {
+    enabled: !!session,
+  });
 
   const activeExpiresDayjs = dayjs(userInfo?.activeExpires);
   const isActive = checkUserActive(activeExpiresDayjs);
