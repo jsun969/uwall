@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { env } from '../../env/client.mjs';
 import theme from '../../lib/theme';
 import { trpc } from '../../lib/trpc';
-import { checkUserActive } from '../../server/utils/checkUserActive';
+import { checkUserActive } from '../../utils/checkUserActive';
 
 interface UserMenuProps {
   anchorEl: HTMLElement | null;

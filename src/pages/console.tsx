@@ -11,8 +11,8 @@ import { ActiveAlert, InactiveAlert } from '../components/console/ActiveAlert';
 import Layout from '../components/layout/Layout';
 import { trpc } from '../lib/trpc';
 import { p } from '../server/db/client';
-import { checkUserActive } from '../server/utils/checkUserActive';
 import { getServerAuth } from '../server/utils/getServerAuth';
+import { checkUserActive } from '../utils/checkUserActive';
 import { toast } from '../utils/toast';
 
 interface ConsolePageProps {
