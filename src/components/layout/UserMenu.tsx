@@ -70,7 +70,7 @@ const UserMenu = ({ anchorEl, onClose }: UserMenuProps) => {
       <MenuItem
         onClick={() => {
           signOut();
-          // FIXME Next Auth OpenID 需要手动登出
+          // FIXME: Next Auth OpenID 需要手动登出
           // https://github.com/nextauthjs/next-auth/discussions/3938
           window.location.href = env.NEXT_PUBLIC_AUTHING_SIGN_OUT;
         }}
