@@ -24,6 +24,7 @@ const MyApp = ({
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
       </Head>
       <ThemeProvider theme={theme}>
         <CssBaseline />

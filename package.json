@@ -1,6 +1,6 @@
 {
   "name": "uwall",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "next build",
@@ -10,7 +10,7 @@
     "start": "next start",
     "prepare": "simple-git-hooks",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md,mjs}\"",
-    "lint": "eslint \"**/*.{js,ts,tsx,,mjs}\" --fix"
+    "lint": "eslint \"**/*.{js,ts,tsx,mjs}\" --fix"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.8",
