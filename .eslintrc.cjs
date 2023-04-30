@@ -1,22 +1,21 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.json'],
   },
   plugins: ['@typescript-eslint'],
-  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended'],
+  extends: [
+    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'next/core-web-vitals',
+  ],
   ignorePatterns: ['*.cjs'],
   rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      { ignoreRestSiblings: true },
-    ],
-    '@typescript-eslint/consistent-type-imports': 'error',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    'no-console': 'error',
+    '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
+    '@typescript-eslint/consistent-type-imports': 'warn',
+    'no-console': 'warn',
   },
 };
