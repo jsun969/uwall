@@ -9,10 +9,16 @@
     "next-lint": "next lint",
     "start": "next start",
     "prepare": "simple-git-hooks",
-    "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
-    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
+    "format": "prettier --write \"**/*.{js,ts,tsx,css,md,mjs}\"",
+    "lint": "eslint \"**/*.{js,ts,tsx,,mjs}\" --fix"
   },
   "dependencies": {
+    "@emotion/cache": "^11.10.8",
+    "@emotion/react": "^11.10.8",
+    "@emotion/server": "^11.10.0",
+    "@emotion/styled": "^11.10.8",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.12.2",
     "@prisma/client": "^4.11.0",
     "@t3-oss/env-nextjs": "^0.2.1",
     "@tanstack/react-query": "^4.28.0",
