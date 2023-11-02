@@ -1,21 +1,36 @@
-module.exports = {
-  parser: '@typescript-eslint/parser',
+/** @type {import("eslint").Linter.Config} */
+const config = {
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: ['./tsconfig.json'],
+    project: true,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ["@typescript-eslint"],
   extends: [
-    'plugin:prettier/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'next/core-web-vitals',
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended-type-checked",
+    "plugin:@typescript-eslint/stylistic-type-checked",
   ],
-  ignorePatterns: ['*.cjs'],
   rules: {
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/no-unused-vars': ['warn', { ignoreRestSiblings: true }],
-    '@typescript-eslint/consistent-type-imports': 'warn',
-    'no-console': 'warn',
+    // These opinionated rules are enabled in stylistic-type-checked above.
+    // Feel free to reconfigure them to your own preference.
+    "@typescript-eslint/array-type": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
+
+    "@typescript-eslint/consistent-type-imports": [
+      "warn",
+      {
+        prefer: "type-imports",
+        fixStyle: "inline-type-imports",
+      },
+    ],
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        checksVoidReturn: { attributes: false },
+      },
+    ],
   },
 };
+
+module.exports = config;
