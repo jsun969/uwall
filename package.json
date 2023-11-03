@@ -2,6 +2,7 @@
   "name": "uwall",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "db:push": "prisma db push",
@@ -11,7 +12,8 @@
     "start": "next start",
     "prepare": "simple-git-hooks",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
-    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix"
+    "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
+    "set-admin": "tsx ./set-admin.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -24,6 +26,7 @@
     "@trpc/next": "^10.37.1",
     "@trpc/react-query": "^10.37.1",
     "@trpc/server": "^10.37.1",
+    "argon2": "^0.31.1",
     "next": "^13.5.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -31,6 +34,7 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@inquirer/prompts": "^3.2.0",
     "@trivago/prettier-plugin-sort-imports": "^4.2.1",
     "@types/eslint": "^8.44.2",
     "@types/node": "^18.16.0",
@@ -44,6 +48,7 @@
     "prettier": "^3.0.3",
     "prisma": "^5.1.1",
     "simple-git-hooks": "^2.9.0",
+    "tsx": "^3.14.0",
     "typescript": "^5.1.6"
   },
   "ct3aMetadata": {
