@@ -2,6 +2,7 @@ import { CssBaseline } from '@mui/material';
 import { headers } from 'next/headers';
 
 import { MuiThemeProvider } from '~/providers/MuiThemeProvider';
+import Toast from '~/providers/Toast';
 import { TRPCReactProvider } from '~/trpc/react';
 
 export const metadata = {
@@ -12,11 +13,14 @@ export const metadata = {
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="zh-CN">
+    <html lang="zh_CN">
       <body>
         <CssBaseline />
         <TRPCReactProvider headers={headers()}>
-          <MuiThemeProvider>{children}</MuiThemeProvider>
+          <MuiThemeProvider>
+            {children}
+            <Toast />
+          </MuiThemeProvider>
         </TRPCReactProvider>
       </body>
     </html>
