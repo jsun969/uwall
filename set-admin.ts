@@ -8,6 +8,11 @@ const password = await passwordInput({
   message: '请输入管理员密码：',
   mask: true,
 });
+await passwordInput({
+  message: '请再次输入密码：',
+  mask: true,
+  validate: (value) => value === password || '重复密码不正确',
+});
 const passwordHash = await argon2.hash(password);
 
 const env = `ADMIN_USERNAME = ${username}
