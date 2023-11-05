@@ -5,15 +5,15 @@ import { type AppRouter } from '~/server/api/root';
 
 export const transformer = superjson;
 
-function getBaseUrl() {
+const getBaseUrl = () => {
   if (typeof window !== 'undefined') return '';
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`;
   return `http://localhost:${process.env.PORT ?? 3000}`;
-}
+};
 
-export function getUrl() {
+export const getUrl = () => {
   return getBaseUrl() + '/api/trpc';
-}
+};
 
 /**
  * Inference helper for inputs.
