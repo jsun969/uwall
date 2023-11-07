@@ -11,10 +11,55 @@ datasource db {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  @@index([name])
+  verify Boolean
+  likes  Int     @default(0)
+
+  category  String
+  anonymous Boolean
+  name      String
+  content   String
+
+  comments Comment[]
+}
+
+model LovePost {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  verify Boolean
+  likes  Int     @default(0)
+
+  anonymous  Boolean
+  fromName   String?
+  fromGender String?
+  toName     String
+  toGender   String
+  content    String
+
+  comments Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+
+  likes Int @default(0)
+
+  name      String
+  anonymous Boolean
+  content   String
+
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String?
+
+  lovePost   LovePost? @relation(fields: [lovePostId], references: [id], onDelete: Cascade)
+  lovePostId String?
+}
+
+model Config {
+  id     Int    @id @default(1)
+  school String @default("")
 }

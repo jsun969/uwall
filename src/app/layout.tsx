@@ -1,13 +1,13 @@
 import { CssBaseline } from '@mui/material';
+import { type Metadata } from 'next';
 import { headers } from 'next/headers';
 
+import { ConfirmProvider } from '~/providers/ConfirmProvider';
 import { MuiThemeProvider } from '~/providers/MuiThemeProvider';
-import Toast from '~/providers/Toast';
+import { Toast } from '~/providers/Toast';
 import { TRPCReactProvider } from '~/trpc/react';
 
-export const metadata = {
-  title: 'Uwall',
-  description: '校园万能墙',
+export const metadata: Metadata = {
   icons: [{ rel: 'icon', url: '/favicon.svg' }],
 };
 
@@ -18,7 +18,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <CssBaseline />
         <TRPCReactProvider headers={headers()}>
           <MuiThemeProvider>
-            {children}
+            <ConfirmProvider>{children}</ConfirmProvider>
             <Toast />
           </MuiThemeProvider>
         </TRPCReactProvider>

@@ -6,12 +6,14 @@
  * TL;DR - This is where all the tRPC server stuff is created and plugged in. The pieces you will
  * need to use are documented accordingly near the end.
  */
-import { initTRPC } from '@trpc/server';
+import { TRPCError, initTRPC } from '@trpc/server';
 import cookie, { type CookieSerializeOptions } from 'cookie';
 import { type NextRequest } from 'next/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
 
+import { ADMIN_TOKEN_COOKIE_NAME } from '~/constants';
+import { jwt } from '~/lib/jwt';
 import { db } from '~/server/db';
 
 /**
@@ -135,3 +137,14 @@ export const createTRPCRouter = t.router;
  * are logged in.
  */
 export const publicProcedure = t.procedure;
+export const adminProcedure = t.procedure.use(async ({ ctx, next }) => {
+  const adminToken = ctx.cookies.get(ADMIN_TOKEN_COOKIE_NAME);
+  const isAdmin = adminToken ? await jwt.verify(adminToken as string) : false;
+  if (!isAdmin) {
+    throw new TRPCError({
+      code: 'UNAUTHORIZED',
+      message: '管理员验证失败',
+    });
+  }
+  return next();
+});
