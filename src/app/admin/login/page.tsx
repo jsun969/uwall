@@ -46,15 +46,11 @@ const AdminLoginPage = () => {
           <Typography variant="h6" color="text.secondary">
             管理员登录
           </Typography>
-          <TextFieldElement
-            control={control}
-            placeholder="用户名"
-            name="username"
-          />
+          <TextFieldElement control={control} label="用户名" name="username" />
           <TextFieldElement
             control={control}
             name="password"
-            placeholder="密码"
+            label="密码"
             type="password"
           />
           <LoadingButton
