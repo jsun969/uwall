@@ -50,12 +50,12 @@ dependencies:
   argon2:
     specifier: ^0.31.1
     version: 0.31.1
+  cookie:
+    specifier: ^0.6.0
+    version: 0.6.0
   jose:
     specifier: ^5.1.0
     version: 5.1.0
-  js-cookie:
-    specifier: ^3.0.5
-    version: 3.0.5
   nanoid:
     specifier: ^5.0.2
     version: 5.0.2
@@ -91,12 +91,12 @@ devDependencies:
   '@trivago/prettier-plugin-sort-imports':
     specifier: ^4.2.1
     version: 4.2.1(prettier@3.0.3)
+  '@types/cookie':
+    specifier: ^0.5.4
+    version: 0.5.4
   '@types/eslint':
     specifier: ^8.44.2
     version: 8.44.6
-  '@types/js-cookie':
-    specifier: ^3.0.5
-    version: 3.0.5
   '@types/node':
     specifier: ^18.16.0
     version: 18.18.8
@@ -1418,6 +1418,10 @@ packages:
     engines: {node: '>=18.0.0'}
     dev: false
 
+  /@types/cookie@0.5.4:
+    resolution: {integrity: sha512-7z/eR6O859gyWIAjuvBWFzNURmf2oPBmJlfVWkwehU5nzIyjwBsTh7WMmEEV4JFnHuQ3ex4oyTvfKzcyJVDBNA==}
+    dev: true
+
   /@types/eslint@8.44.6:
     resolution: {integrity: sha512-P6bY56TVmX8y9J87jHNgQh43h6VVU+6H7oN7hgvivV81K2XY8qJZ5vqPy/HdUoVIelii2kChYVzQanlswPWVFw==}
     dependencies:
@@ -1427,10 +1431,6 @@ packages:
 
   /@types/estree@1.0.4:
     resolution: {integrity: sha512-2JwWnHK9H+wUZNorf2Zr6ves96WHoWDJIftkcxPKsS7Djta6Zu519LarhRNljPXkpsZR2ZMwNCPeW7omW07BJw==}
-    dev: true
-
-  /@types/js-cookie@3.0.5:
-    resolution: {integrity: sha512-dtLshqoiGRDHbHueIT9sjkd2F4tW1qPSX2xKAQK8p1e6pM+Z913GM1shv7dOqqasEMYbC5zEaClJomQe8OtQLA==}
     dev: true
 
   /@types/json-schema@7.0.14:
@@ -2009,6 +2009,11 @@ packages:
 
   /convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
+    dev: false
+
+  /cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
+    engines: {node: '>= 0.6'}
     dev: false
 
   /copy-anything@3.0.5:
@@ -3136,11 +3141,6 @@ packages:
 
   /jose@5.1.0:
     resolution: {integrity: sha512-H+RVqxA6apaJ0rcQYupKYhos7uosAiF42gUcWZiwhICWMphDULFj/CRr1R0tV/JCv9DEeJaSyYYpc9luHHNT4g==}
-    dev: false
-
-  /js-cookie@3.0.5:
-    resolution: {integrity: sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==}
-    engines: {node: '>=14'}
     dev: false
 
   /js-tokens@4.0.0:

@@ -1,10 +1,11 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
+import { ADMIN_TOKEN_COOKIE_NAME } from './constants';
 import { jwt } from './lib/jwt';
 
 export const middleware = async (request: NextRequest) => {
-  const adminToken = request.cookies.get('admin-token')?.value;
+  const adminToken = request.cookies.get(ADMIN_TOKEN_COOKIE_NAME)?.value;
   const isAdmin = adminToken ? await jwt.verify(adminToken) : false;
   const inLogin = request.nextUrl.pathname === '/admin/login';
   if (!isAdmin && !inLogin) {

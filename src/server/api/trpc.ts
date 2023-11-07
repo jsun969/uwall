@@ -7,6 +7,7 @@
  * need to use are documented accordingly near the end.
  */
 import { initTRPC } from '@trpc/server';
+import cookie, { type CookieSerializeOptions } from 'cookie';
 import { type NextRequest } from 'next/server';
 import superjson from 'superjson';
 import { ZodError } from 'zod';
@@ -23,6 +24,7 @@ import { db } from '~/server/db';
 
 interface CreateContextOptions {
   headers: Headers;
+  resHeaders: Headers;
 }
 
 /**
@@ -36,9 +38,38 @@ interface CreateContextOptions {
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
 export const createInnerTRPCContext = (opts: CreateContextOptions) => {
+  // https://www.answeroverflow.com/m/1165005090562789416
+  const cookies = {
+    get: (name?: string) => {
+      const cookiesHeader = opts.headers.get('Cookie');
+      if (!cookiesHeader) return null;
+      const cookies = cookie.parse(cookiesHeader);
+      return name ? cookies[name] ?? null : cookies;
+    },
+    has: (name: string) => {
+      const cookiesHeader = opts.headers.get('Cookie');
+      if (!cookiesHeader) return false;
+      const cookies = cookie.parse(cookiesHeader);
+      return name in cookies;
+    },
+    set: (name: string, value: string, options?: CookieSerializeOptions) => {
+      opts.resHeaders.append(
+        'Set-Cookie',
+        cookie.serialize(name, value, options),
+      );
+    },
+    clear: (name: string) => {
+      opts.resHeaders.append(
+        'Set-Cookie',
+        cookie.serialize(name, '', { maxAge: -1 }),
+      );
+    },
+  };
+
   return {
     headers: opts.headers,
     db,
+    cookies,
   };
 };
 
@@ -48,11 +79,15 @@ export const createInnerTRPCContext = (opts: CreateContextOptions) => {
  *
  * @see https://trpc.io/docs/context
  */
-export const createTRPCContext = (opts: { req: NextRequest }) => {
+export const createTRPCContext = (opts: {
+  req: NextRequest;
+  resHeaders: Headers;
+}) => {
   // Fetch stuff that depends on the request
 
   return createInnerTRPCContext({
     headers: opts.req.headers,
+    resHeaders: opts.resHeaders,
   });
 };
 

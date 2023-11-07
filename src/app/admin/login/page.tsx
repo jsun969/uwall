@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Login } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Box, Card, CardContent, Typography } from '@mui/material';
-import cookie from 'js-cookie';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { TextFieldElement } from 'react-hook-form-mui';
@@ -21,8 +20,7 @@ const AdminLoginPage = () => {
     resolver: zodResolver(authSchema.login),
   });
   const login = api.auth.login.useMutation({
-    onSuccess: ({ token }) => {
-      cookie.set('admin-token', token, { expires: 7 });
+    onSuccess: () => {
       toast.success('登录成功！');
       router.push('/admin');
     },
