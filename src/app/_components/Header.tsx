@@ -19,7 +19,7 @@ const tabs = [
   { name: '全部', path: '/' },
   ...CATEGORIES.map((category) => ({
     name: category.name,
-    path: '/' + category.path,
+    path: '/' + category.value,
   })),
 ];
 

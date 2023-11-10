@@ -22,9 +22,9 @@ export const PostButton = () => {
       }}
       open={open}
     >
-      {CATEGORIES.map(({ name, path, icon: Icon }) => (
+      {CATEGORIES.map(({ name, value, icon: Icon }) => (
         <SpeedDialAction
-          key={path}
+          key={value}
           icon={<Icon />}
           tooltipTitle={name}
           tooltipOpen

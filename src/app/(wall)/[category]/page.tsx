@@ -11,12 +11,12 @@ export const generateMetadata = async ({
 }): Promise<Metadata> => {
   const config = (await db.config.findFirst())!;
   const categoryName =
-    CATEGORIES.find(({ path }) => path === params.category)?.name ?? '404';
+    CATEGORIES.find(({ value }) => value === params.category)?.name ?? '404';
   return { title: `${config.school}万能墙 - ${categoryName}` };
 };
 
 const WallCategoryPage = ({ params }: { params: { category: string } }) => {
-  if (!CATEGORIES.map(({ path }) => path).includes(params.category)) {
+  if (!CATEGORIES.map(({ value }) => value).includes(params.category)) {
     notFound();
   }
 
