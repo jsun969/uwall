@@ -70,7 +70,9 @@ export const LovePostForm = () => {
   const router = useRouter();
   const createLovePost = api.wall.createLovePost.useMutation({
     onSuccess: (data) => {
-      localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.fromName ?? '');
+      if (!data.anonymous) {
+        localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.fromName ?? '');
+      }
       toast.success('表白发送成功！');
       router.push('/');
     },

@@ -43,7 +43,9 @@ export const PostForm = ({ category }: { category: string }) => {
   const router = useRouter();
   const createPost = api.wall.createPost.useMutation({
     onSuccess: (data) => {
-      localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.name ?? '');
+      if (!data.anonymous) {
+        localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.name ?? '');
+      }
       toast.success('发送成功！');
       router.push('/');
     },
