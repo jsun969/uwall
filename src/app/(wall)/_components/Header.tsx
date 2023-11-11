@@ -10,7 +10,6 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material';
-import { type Config } from '@prisma/client';
 import { usePathname, useRouter } from 'next/navigation';
 
 import { CATEGORIES } from '~/constants';
@@ -23,18 +22,14 @@ const tabs = [
   })),
 ];
 
-export const Header = ({
-  config,
-  showTabs,
-}: {
-  config: Config;
-  showTabs?: boolean;
-}) => {
+export const Header = ({ title }: { title: string }) => {
   const pathname = usePathname();
   const router = useRouter();
 
+  const showTabs = tabs.some(({ path }) => path === pathname);
+
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{ mb: 4 }}>
       <Toolbar>
         <IconButton
           color="inherit"
@@ -46,7 +41,7 @@ export const Header = ({
         </IconButton>
         <Box sx={{ flexGrow: 1 }}>
           <Box sx={{ ml: 1 }}>
-            <Typography variant="h6">{config?.school}万能墙</Typography>
+            <Typography variant="h6">{title}</Typography>
           </Box>
         </Box>
         <IconButton color="inherit" href="https://github.com/jsun969/uwall">

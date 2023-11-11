@@ -2,12 +2,21 @@
 
 import { Edit } from '@mui/icons-material';
 import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { CATEGORIES } from '~/constants';
 
 export const PostButton = () => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
+
+  const pathname = usePathname();
+  const showPostButton = !pathname.includes('/post/new');
+
+  if (!showPostButton) {
+    return <></>;
+  }
 
   return (
     <SpeedDial
@@ -28,6 +37,9 @@ export const PostButton = () => {
           icon={<Icon />}
           tooltipTitle={name}
           tooltipOpen
+          onClick={() => {
+            router.push(`/post/new?category=${value}`);
+          }}
         />
       ))}
     </SpeedDial>

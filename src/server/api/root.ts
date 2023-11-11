@@ -1,5 +1,6 @@
 import { adminRouter } from './routers/admin';
 import { authRouter } from './routers/auth';
+import { wallRouter } from './routers/wall';
 import { createTRPCRouter } from '~/server/api/trpc';
 
 /**
@@ -10,6 +11,7 @@ import { createTRPCRouter } from '~/server/api/trpc';
 export const appRouter = createTRPCRouter({
   auth: authRouter,
   admin: adminRouter,
+  wall: wallRouter,
 });
 
 // export type definition of API

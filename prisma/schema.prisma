@@ -14,14 +14,12 @@ model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  verify Boolean
-  likes  Int     @default(0)
-
   category  String
   anonymous Boolean
-  name      String
+  name      String?
   content   String
 
+  likes    Int       @default(0)
   comments Comment[]
 }
 
@@ -29,16 +27,14 @@ model LovePost {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
 
-  verify Boolean
-  likes  Int     @default(0)
-
   anonymous  Boolean
   fromName   String?
-  fromGender String?
+  fromGender String
   toName     String
   toGender   String
   content    String
 
+  likes    Int       @default(0)
   comments Comment[]
 }
 
