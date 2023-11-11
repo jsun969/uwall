@@ -16,7 +16,7 @@ export const ConfigForm = ({
 }: {
   defaultValues: z.infer<typeof adminSchema.updateConfig>;
 }) => {
-  const { control, handleSubmit } = useForm<
+  const { control, handleSubmit, formState } = useForm<
     z.infer<typeof adminSchema.updateConfig>
   >({
     resolver: zodResolver(adminSchema.updateConfig),
@@ -45,6 +45,7 @@ export const ConfigForm = ({
           type="submit"
           variant="contained"
           loading={updateConfig.isLoading}
+          disabled={!formState.isDirty}
         >
           修改
         </LoadingButton>
