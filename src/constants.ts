@@ -7,6 +7,7 @@ import {
 } from '@mui/icons-material';
 
 export const ADMIN_TOKEN_COOKIE_NAME = 'admin-token' as const;
+export const POSTER_NAME_LOCALSTORAGE_KEY = 'posterName' as const;
 
 export const CATEGORIES = [
   { name: '表白', value: 'love', icon: Favorite },

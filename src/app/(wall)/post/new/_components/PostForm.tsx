@@ -8,6 +8,7 @@ import { SwitchElement, TextFieldElement, useForm } from 'react-hook-form-mui';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
+import { POSTER_NAME_LOCALSTORAGE_KEY } from '~/constants';
 import { wallSchema } from '~/server/api/schema/wall';
 import { api } from '~/trpc/react';
 
@@ -21,7 +22,11 @@ export const PostForm = ({ category }: { category: string }) => {
     z.infer<typeof schema>
   >({
     resolver: zodResolver(schema),
-    defaultValues: { name: '', content: '', anonymous: false },
+    defaultValues: {
+      name: localStorage.getItem(POSTER_NAME_LOCALSTORAGE_KEY) ?? '',
+      content: '',
+      anonymous: false,
+    },
   });
 
   const cacheName = useRef(getValues('name'));
@@ -37,7 +42,8 @@ export const PostForm = ({ category }: { category: string }) => {
 
   const router = useRouter();
   const createPost = api.wall.createPost.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.name ?? '');
       toast.success('发送成功！');
       router.push('/');
     },

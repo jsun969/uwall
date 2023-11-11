@@ -15,7 +15,7 @@ import {
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
-import { GENDERS } from '~/constants';
+import { GENDERS, POSTER_NAME_LOCALSTORAGE_KEY } from '~/constants';
 import { wallSchema } from '~/server/api/schema/wall';
 import { api } from '~/trpc/react';
 
@@ -45,7 +45,7 @@ export const LovePostForm = () => {
   >({
     resolver: zodResolver(schema),
     defaultValues: {
-      fromName: '',
+      fromName: localStorage.getItem(POSTER_NAME_LOCALSTORAGE_KEY) ?? '',
       fromGender: 'secret',
       toName: '',
       toGender: 'secret',
@@ -69,7 +69,8 @@ export const LovePostForm = () => {
 
   const router = useRouter();
   const createLovePost = api.wall.createLovePost.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
+      localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.fromName ?? '');
       toast.success('表白发送成功！');
       router.push('/');
     },
