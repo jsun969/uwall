@@ -1,6 +1,6 @@
 'use client';
 
-import { GitHub, QuestionAnswer } from '@mui/icons-material';
+import { QuestionAnswer, Refresh } from '@mui/icons-material';
 import {
   AppBar,
   Box,
@@ -8,9 +8,11 @@ import {
   Tab,
   Tabs,
   Toolbar,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { CATEGORIES } from '~/constants';
 
@@ -21,6 +23,38 @@ const tabs = [
     path: '/' + category.value,
   })),
 ];
+
+const RefreshButton = ({ onClick }: { onClick?: () => void }) => {
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  useEffect(() => {
+    if (isRefreshing) {
+      setTimeout(() => {
+        setIsRefreshing(false);
+      }, 1000);
+    }
+  }, [isRefreshing]);
+
+  const handleClick = () => {
+    onClick?.();
+    setIsRefreshing(true);
+  };
+
+  return (
+    <Tooltip title="刷新">
+      <IconButton
+        color="inherit"
+        onClick={isRefreshing ? undefined : handleClick}
+      >
+        <Refresh
+          sx={{
+            transform: isRefreshing ? 'rotate(360deg)' : 'rotate(0deg)',
+            transition: isRefreshing ? 'transform 1s linear' : 'none',
+          }}
+        />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 export const Header = ({ title }: { title: string }) => {
   const pathname = usePathname();
@@ -44,9 +78,11 @@ export const Header = ({ title }: { title: string }) => {
             <Typography variant="h6">{title}</Typography>
           </Box>
         </Box>
-        <IconButton color="inherit" href="https://github.com/jsun969/uwall">
-          <GitHub />
-        </IconButton>
+        <RefreshButton
+          onClick={() => {
+            router.refresh();
+          }}
+        />
       </Toolbar>
       {showTabs && (
         <Tabs
