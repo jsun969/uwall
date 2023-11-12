@@ -1,6 +1,7 @@
 import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { InitialPosts } from '../_components/InitialPosts';
 import { CATEGORIES, type CategoryValue } from '~/constants';
 import { db } from '~/server/db';
 
@@ -24,7 +25,7 @@ const WallCategoryPage = ({
     notFound();
   }
 
-  return <div>WallCategoryPage {params.category}</div>;
+  return <InitialPosts category={params.category} />;
 };
 
 export default WallCategoryPage;

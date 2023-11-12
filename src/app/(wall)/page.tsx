@@ -1,5 +1,7 @@
+import { InitialPosts } from './_components/InitialPosts';
+
 const WallPage = () => {
-  return <main>WallPage</main>;
+  return <InitialPosts />;
 };
 
 export default WallPage;

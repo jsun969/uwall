@@ -25,7 +25,7 @@ dependencies:
     version: 5.14.16(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)
   '@mui/x-date-pickers':
     specifier: ^6.18.0
-    version: 6.18.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.16)(@mui/system@5.14.16)(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)
+    version: 6.18.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.16)(@mui/system@5.14.16)(@types/react@18.2.34)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
   '@prisma/client':
     specifier: ^5.1.1
     version: 5.5.2(prisma@5.5.2)
@@ -53,6 +53,9 @@ dependencies:
   cookie:
     specifier: ^0.6.0
     version: 0.6.0
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   jose:
     specifier: ^5.1.0
     version: 5.1.0
@@ -1072,7 +1075,7 @@ packages:
       react-is: 18.2.0
     dev: false
 
-  /@mui/x-date-pickers@6.18.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.16)(@mui/system@5.14.16)(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0):
+  /@mui/x-date-pickers@6.18.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.16)(@mui/system@5.14.16)(@types/react@18.2.34)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-y4UlkHQXiNRfb6FWQ/GWir0sZ+9kL+GEEZssG+XWP3KJ+d3lONRteusl4AJkYJBdIAOh+5LnMV9RAQKq9Sl7yw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -1118,6 +1121,7 @@ packages:
       '@mui/utils': 5.14.16(@types/react@18.2.34)(react@18.2.0)
       '@types/react-transition-group': 4.4.8
       clsx: 2.0.0
+      dayjs: 1.11.10
       prop-types: 15.8.1
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2062,6 +2066,10 @@ packages:
   /damerau-levenshtein@1.0.8:
     resolution: {integrity: sha512-sdQSFB7+llfUcQHUQO3+B8ERRj0Oa4w9POWMI/puGtuf7gFywGmkaLCElnudfTiKZV+NvHqL0ifzdrI8Ro7ESA==}
     dev: true
+
+  /dayjs@1.11.10:
+    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
+    dev: false
 
   /debug@3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
@@ -3745,7 +3753,7 @@ packages:
     dependencies:
       '@mui/icons-material': 5.14.16(@mui/material@5.14.16)(@types/react@18.2.34)(react@18.2.0)
       '@mui/material': 5.14.16(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)
-      '@mui/x-date-pickers': 6.18.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.16)(@mui/system@5.14.16)(@types/react@18.2.34)(react-dom@18.2.0)(react@18.2.0)
+      '@mui/x-date-pickers': 6.18.0(@emotion/react@11.11.1)(@emotion/styled@11.11.0)(@mui/material@5.14.16)(@mui/system@5.14.16)(@types/react@18.2.34)(dayjs@1.11.10)(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
       react-hook-form: 7.47.0(react@18.2.0)
     dev: false

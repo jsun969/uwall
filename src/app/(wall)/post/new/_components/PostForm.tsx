@@ -41,12 +41,14 @@ export const PostForm = ({ category }: { category: CategoryValue }) => {
   }, [watchAnonymous]);
 
   const router = useRouter();
+  const apiUtils = api.useUtils();
   const createPost = api.wall.createPost.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!data.anonymous) {
         localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.name ?? '');
       }
       toast.success('发送成功！');
+      await apiUtils.wall.getPosts.invalidate();
       router.push('/');
     },
   });

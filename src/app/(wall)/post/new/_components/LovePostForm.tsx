@@ -68,12 +68,14 @@ export const LovePostForm = () => {
     GENDERS.find(({ value }) => value === watch('toGender'))?.pronoun ?? 'TA';
 
   const router = useRouter();
+  const apiUtils = api.useUtils();
   const createLovePost = api.wall.createLovePost.useMutation({
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (!data.anonymous) {
         localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.name ?? '');
       }
       toast.success('表白发送成功！');
+      await apiUtils.wall.getPosts.invalidate();
       router.push('/');
     },
   });

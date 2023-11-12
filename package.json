@@ -33,6 +33,7 @@
     "@trpc/server": "^10.37.1",
     "argon2": "^0.31.1",
     "cookie": "^0.6.0",
+    "dayjs": "^1.11.10",
     "jose": "^5.1.0",
     "js-cookie": "^3.0.5",
     "material-ui-confirm": "^3.0.9",
