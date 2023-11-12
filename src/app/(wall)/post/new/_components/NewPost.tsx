@@ -12,11 +12,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { LovePostForm } from './LovePostForm';
 import { PostForm } from './PostForm';
-import { CATEGORIES } from '~/constants';
+import { CATEGORIES, type CategoryValue } from '~/constants';
 
 export const NewPost = () => {
   const searchParams = useSearchParams();
-  const category = searchParams.get('category');
+  const category = searchParams.get('category') as CategoryValue;
   const router = useRouter();
 
   return (
@@ -46,7 +46,7 @@ export const NewPost = () => {
       {category === 'love' ? (
         <LovePostForm />
       ) : (
-        <PostForm category={category!} />
+        <PostForm category={category} />
       )}
     </Grid>
   );

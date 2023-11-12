@@ -45,8 +45,8 @@ export const LovePostForm = () => {
   >({
     resolver: zodResolver(schema),
     defaultValues: {
-      fromName: localStorage.getItem(POSTER_NAME_LOCALSTORAGE_KEY) ?? '',
-      fromGender: 'secret',
+      name: localStorage.getItem(POSTER_NAME_LOCALSTORAGE_KEY) ?? '',
+      gender: 'secret',
       toName: '',
       toGender: 'secret',
       content: '',
@@ -54,14 +54,14 @@ export const LovePostForm = () => {
     },
   });
 
-  const cacheFormName = useRef(getValues('fromName'));
+  const cacheFormName = useRef(getValues('name'));
   const watchAnonymous = watch('anonymous');
   useEffect(() => {
     if (watchAnonymous) {
-      cacheFormName.current = getValues('fromName');
-      setValue('fromName', '');
+      cacheFormName.current = getValues('name');
+      setValue('name', '');
     } else {
-      setValue('fromName', cacheFormName.current);
+      setValue('name', cacheFormName.current);
     }
   }, [watchAnonymous]);
   const toPronoun =
@@ -71,7 +71,7 @@ export const LovePostForm = () => {
   const createLovePost = api.wall.createLovePost.useMutation({
     onSuccess: (data) => {
       if (!data.anonymous) {
-        localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.fromName ?? '');
+        localStorage.setItem(POSTER_NAME_LOCALSTORAGE_KEY, data.name ?? '');
       }
       toast.success('表白发送成功！');
       router.push('/');
@@ -90,13 +90,13 @@ export const LovePostForm = () => {
       })}
     >
       <Grid item xs={12} md={watchAnonymous ? 6 : 4}>
-        <GenderSelect label="你的性别" control={control} name="fromGender" />
+        <GenderSelect label="你的性别" control={control} name="gender" />
       </Grid>
       {!watchAnonymous && (
         <Grid item xs={12} md={8}>
           <TextFieldElement
             control={control}
-            name="fromName"
+            name="name"
             label="你的名字"
             fullWidth
           />

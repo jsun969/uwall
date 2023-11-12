@@ -8,7 +8,7 @@ import { SwitchElement, TextFieldElement, useForm } from 'react-hook-form-mui';
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
-import { POSTER_NAME_LOCALSTORAGE_KEY } from '~/constants';
+import { POSTER_NAME_LOCALSTORAGE_KEY, type CategoryValue } from '~/constants';
 import { wallSchema } from '~/server/api/schema/wall';
 import { api } from '~/trpc/react';
 
@@ -17,7 +17,7 @@ const schema = z.union([
   wallSchema.createAnonymousPost.omit({ category: true }),
 ]);
 
-export const PostForm = ({ category }: { category: string }) => {
+export const PostForm = ({ category }: { category: CategoryValue }) => {
   const { control, watch, handleSubmit, setValue, getValues } = useForm<
     z.infer<typeof schema>
   >({

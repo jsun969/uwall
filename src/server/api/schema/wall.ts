@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+import { CATEGORY_VALUES, GENDER_VALUES } from '~/constants';
+
 const name = z
   .string()
   .min(1, '请输入名字')
@@ -8,41 +10,30 @@ const content = z
   .string()
   .min(1, { message: '请输入内容' })
   .max(250, { message: '不得大于250个字符' });
+const gender = z.enum(GENDER_VALUES);
 
-const commonCreatePostSchema = z.object({
-  category: z.string(),
+const createPostBase = z.object({
+  category: z.enum(CATEGORY_VALUES),
   content,
 });
-const commonCreateLovePost = z.object({
-  fromGender: z.string(),
+const createLovePostBase = z.object({
+  gender,
   toName: name,
-  toGender: z.string(),
+  toGender: gender,
   content,
+});
+const nameWhenAnonymous = z.object({
+  anonymous: z.literal(true),
+  name: z.literal(''),
+});
+const nameWhenNotAnonymous = z.object({
+  anonymous: z.literal(false),
+  name,
 });
 
 export const wallSchema = {
-  createPost: commonCreatePostSchema.merge(
-    z.object({
-      anonymous: z.literal(true),
-      name: z.literal(''),
-    }),
-  ),
-  createAnonymousPost: commonCreatePostSchema.merge(
-    z.object({
-      anonymous: z.literal(false),
-      name,
-    }),
-  ),
-  createLovePost: commonCreateLovePost.merge(
-    z.object({
-      anonymous: z.literal(false),
-      fromName: name,
-    }),
-  ),
-  createAnonymousLovePost: commonCreateLovePost.merge(
-    z.object({
-      anonymous: z.literal(true),
-      fromName: z.literal(''),
-    }),
-  ),
+  createPost: createPostBase.merge(nameWhenNotAnonymous),
+  createAnonymousPost: createPostBase.merge(nameWhenAnonymous),
+  createLovePost: createLovePostBase.merge(nameWhenNotAnonymous),
+  createAnonymousLovePost: createLovePostBase.merge(nameWhenAnonymous),
 };

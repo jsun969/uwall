@@ -16,23 +16,12 @@ model Post {
 
   category  String
   anonymous Boolean
-  name      String?
   content   String
 
-  likes    Int       @default(0)
-  comments Comment[]
-}
-
-model LovePost {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-
-  anonymous  Boolean
-  fromName   String?
-  fromGender String
-  toName     String
-  toGender   String
-  content    String
+  name     String?
+  gender   String?
+  toName   String?
+  toGender String?
 
   likes    Int       @default(0)
   comments Comment[]
@@ -50,9 +39,6 @@ model Comment {
 
   post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String?
-
-  lovePost   LovePost? @relation(fields: [lovePostId], references: [id], onDelete: Cascade)
-  lovePostId String?
 }
 
 model Config {

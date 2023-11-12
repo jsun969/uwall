@@ -1,13 +1,13 @@
 import { type Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { CATEGORIES } from '~/constants';
+import { CATEGORIES, type CategoryValue } from '~/constants';
 import { db } from '~/server/db';
 
 export const generateMetadata = async ({
   params,
 }: {
-  params: { category: string };
+  params: { category: CategoryValue };
 }): Promise<Metadata> => {
   const config = (await db.config.findFirst())!;
   const categoryName =
@@ -15,7 +15,11 @@ export const generateMetadata = async ({
   return { title: `${config.school}万能墙 - ${categoryName}` };
 };
 
-const WallCategoryPage = ({ params }: { params: { category: string } }) => {
+const WallCategoryPage = ({
+  params,
+}: {
+  params: { category: CategoryValue };
+}) => {
   if (!CATEGORIES.map(({ value }) => value).includes(params.category)) {
     notFound();
   }
