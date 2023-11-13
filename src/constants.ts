@@ -7,7 +7,9 @@ import {
 } from '@mui/icons-material';
 
 export const ADMIN_TOKEN_COOKIE_NAME = 'admin-token' as const;
+
 export const POSTER_NAME_LOCALSTORAGE_KEY = 'posterName' as const;
+export const LIKE_POSTS_LOCALSTORAGE_KEY = 'likePosts' as const;
 
 export const PAGE_SIZE = 90;
 

@@ -14,8 +14,16 @@ import {
 import { type Post as PostData } from '@prisma/client';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
-import { CATEGORIES, DEFAULT_GENDER_COLOR, GENDERS } from '~/constants';
+import {
+  CATEGORIES,
+  DEFAULT_GENDER_COLOR,
+  GENDERS,
+  LIKE_POSTS_LOCALSTORAGE_KEY,
+} from '~/constants';
+import { api } from '~/trpc/react';
 
 const CategoryChip = ({ categoryValue }: { categoryValue: string }) => {
   const router = useRouter();
@@ -62,11 +70,43 @@ const Name = ({ post }: { post: PostData }) => {
   );
 };
 
+const getLikePostsStorage = () => {
+  const likePostsStoragePlainData = localStorage.getItem(
+    LIKE_POSTS_LOCALSTORAGE_KEY,
+  );
+  return likePostsStoragePlainData
+    ? (JSON.parse(likePostsStoragePlainData) as string[])
+    : [];
+};
+
 export type PostDataWithCommentsCount = PostData & {
   _count: { comments: number };
 };
 export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
   const isLovePost = post.category === 'love';
+
+  const likePostsStorage = getLikePostsStorage();
+  const [isLiked, setIsLiked] = useState(likePostsStorage.includes(post.id));
+  const apiUtils = api.useUtils();
+  const addLike = api.wall.addLike.useMutation({
+    onMutate: () => {
+      setIsLiked(true);
+    },
+    onError: () => {
+      setIsLiked(false);
+      toast.error(`为 ${post.anonymous ? '匿名' : post.name} 点赞失败`);
+    },
+    onSuccess: (data) => {
+      const newlikePostsStorage = [...likePostsStorage, data.id];
+      localStorage.setItem(
+        LIKE_POSTS_LOCALSTORAGE_KEY,
+        JSON.stringify(newlikePostsStorage),
+      );
+    },
+    onSettled: async () => {
+      await apiUtils.wall.getPosts.invalidate();
+    },
+  });
 
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -94,7 +134,12 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <IconButton>
+        <IconButton
+          color={isLiked ? 'primary' : 'default'}
+          onClick={() => {
+            !isLiked && addLike.mutate({ id: post.id });
+          }}
+        >
           <Badge badgeContent={post.likes} color="secondary">
             <ThumbUp />
           </Badge>
@@ -105,6 +150,7 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
             variant="outlined"
             size="small"
             icon={<PsychologyAlt />}
+            color="secondary"
           />
         )}
         <IconButton>

@@ -41,4 +41,12 @@ export const wallRouter = createTRPCRouter({
       }
       return { posts, nextCursor };
     }),
+  addLike: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.post.update({
+        where: { id: input.id },
+        data: { likes: { increment: 1 } },
+      });
+    }),
 });
