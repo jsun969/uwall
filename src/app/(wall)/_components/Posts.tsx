@@ -3,7 +3,6 @@
 import { LoadingButton } from '@mui/lab';
 import { Box, Container, Grid } from '@mui/material';
 import { type InfiniteData } from '@tanstack/react-query';
-import { useEffect } from 'react';
 
 import { Post, type PostDataWithCommentsCount } from './Post';
 import { type CategoryValue } from '~/constants';
@@ -27,16 +26,6 @@ export const Posts = ({
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
-  const utils = api.useUtils();
-  useEffect(() => {
-    void (async () => {
-      await utils.wall.getPosts.cancel({ category });
-      utils.wall.getPosts.setInfiniteData(
-        { category },
-        () => initialGetPostsData,
-      );
-    })();
-  }, [initialGetPostsData, category]);
 
   return (
     <Container maxWidth="lg">
