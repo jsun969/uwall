@@ -11,10 +11,12 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useIsFetching } from '@tanstack/react-query';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { CATEGORIES } from '~/constants';
+import { api } from '~/trpc/react';
 
 const tabs = [
   { name: '全部', path: '/' },
@@ -24,7 +26,9 @@ const tabs = [
   })),
 ];
 
-const RefreshButton = ({ onClick }: { onClick?: () => void }) => {
+const RefreshButton = () => {
+  const router = useRouter();
+
   const [isRefreshing, setIsRefreshing] = useState(false);
   useEffect(() => {
     if (isRefreshing) {
@@ -34,9 +38,18 @@ const RefreshButton = ({ onClick }: { onClick?: () => void }) => {
     }
   }, [isRefreshing]);
 
-  const handleClick = () => {
-    onClick?.();
+  const isApiFetching = useIsFetching() > 0;
+  useEffect(() => {
+    if (isApiFetching) {
+      setIsRefreshing(true);
+    }
+  }, [isApiFetching, isRefreshing]);
+  const apiUtils = api.useUtils();
+
+  const handleClick = async () => {
     setIsRefreshing(true);
+    router.refresh();
+    await apiUtils.invalidate();
   };
 
   return (
@@ -78,11 +91,7 @@ export const Header = ({ title }: { title: string }) => {
             <Typography variant="h6">{title}</Typography>
           </Box>
         </Box>
-        <RefreshButton
-          onClick={() => {
-            router.refresh();
-          }}
-        />
+        <RefreshButton />
       </Toolbar>
       {showTabs && (
         <Tabs
@@ -92,11 +101,11 @@ export const Header = ({ title }: { title: string }) => {
           value={pathname}
           indicatorColor="secondary"
         >
-          {tabs.map((tab, i) => (
+          {tabs.map((tab) => (
             <Tab
               label={tab.name}
               value={tab.path}
-              key={i}
+              key={tab.path}
               onClick={() => {
                 router.push(tab.path);
               }}
