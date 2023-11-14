@@ -4,21 +4,19 @@ import { notFound } from 'next/navigation';
 import { InitialPosts } from '../_components/InitialPosts';
 import { CATEGORIES, type CategoryValue } from '~/constants';
 
+interface WallCategoryPageProps {
+  params: { category: CategoryValue };
+}
+
 export const generateMetadata = ({
   params,
-}: {
-  params: { category: CategoryValue };
-}): Metadata => {
+}: WallCategoryPageProps): Metadata => {
   const categoryName =
     CATEGORIES.find(({ value }) => value === params.category)?.name ?? '404';
   return { title: categoryName };
 };
 
-const WallCategoryPage = ({
-  params,
-}: {
-  params: { category: CategoryValue };
-}) => {
+const WallCategoryPage = ({ params }: WallCategoryPageProps) => {
   if (!CATEGORIES.map(({ value }) => value).includes(params.category)) {
     notFound();
   }
