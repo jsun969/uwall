@@ -3,17 +3,15 @@ import { notFound } from 'next/navigation';
 
 import { InitialPosts } from '../_components/InitialPosts';
 import { CATEGORIES, type CategoryValue } from '~/constants';
-import { db } from '~/server/db';
 
-export const generateMetadata = async ({
+export const generateMetadata = ({
   params,
 }: {
   params: { category: CategoryValue };
-}): Promise<Metadata> => {
-  const config = (await db.config.findFirst())!;
+}): Metadata => {
   const categoryName =
     CATEGORIES.find(({ value }) => value === params.category)?.name ?? '404';
-  return { title: `${config.school}万能墙 - ${categoryName}` };
+  return { title: categoryName };
 };
 
 const WallCategoryPage = ({

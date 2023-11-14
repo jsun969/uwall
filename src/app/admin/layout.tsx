@@ -1,7 +1,7 @@
 import { type Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: '万能墙管理员后台',
+  title: '管理员后台',
   robots: 'noindex',
 };
 
