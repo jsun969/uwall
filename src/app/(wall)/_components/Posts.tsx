@@ -1,7 +1,7 @@
 'use client';
 
-import { LoadingButton } from '@mui/lab';
-import { Box, Container, Grid } from '@mui/material';
+import { LoadingButton, Masonry } from '@mui/lab';
+import { Box } from '@mui/material';
 import { type InfiniteData } from '@tanstack/react-query';
 
 import { Post, type PostDataWithCommentsCount } from './Post';
@@ -26,18 +26,16 @@ export const Posts = ({
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
+  const postsInAllPages =
+    getPosts.data?.pages.flatMap(({ posts }) => posts) ?? [];
 
   return (
-    <Container maxWidth="lg">
-      <Grid container spacing={2} alignContent="stretch">
-        {getPosts.data?.pages.map((page) =>
-          page.posts.map((post) => (
-            <Grid item lg={4} sm={6} xs={12} key={post.id}>
-              <Post post={post} />
-            </Grid>
-          )),
-        )}
-      </Grid>
+    <Box sx={{ pl: 2 }}>
+      <Masonry spacing={2} columns={{ lg: 3, sm: 2, xs: 1 }}>
+        {postsInAllPages.map((post) => (
+          <Post post={post} key={post.id} />
+        ))}
+      </Masonry>
       <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
         <LoadingButton
           variant="contained"
@@ -50,6 +48,6 @@ export const Posts = ({
           加载更多
         </LoadingButton>
       </Box>
-    </Container>
+    </Box>
   );
 };

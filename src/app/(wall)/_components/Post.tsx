@@ -109,10 +109,8 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
   });
 
   return (
-    <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <CardContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, flexGrow: 1 }}
-      >
+    <Card>
+      <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <Box
           sx={{
             display: 'flex',
