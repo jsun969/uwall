@@ -37,18 +37,19 @@ export const Posts = ({
           <Post post={post} key={post.id} />
         ))}
       </Masonry>
-      <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
-        <LoadingButton
-          variant="contained"
-          color="secondary"
-          size="large"
-          loading={getPosts.isFetchingNextPage}
-          onClick={() => getPosts.fetchNextPage()}
-          disabled={!getPosts.hasNextPage}
-        >
-          加载更多
-        </LoadingButton>
-      </Box>
+      {getPosts.hasNextPage && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
+          <LoadingButton
+            variant="contained"
+            color="secondary"
+            size="large"
+            loading={getPosts.isFetchingNextPage}
+            onClick={() => getPosts.fetchNextPage()}
+          >
+            加载更多
+          </LoadingButton>
+        </Box>
+      )}
     </Box>
   );
 };
