@@ -22,6 +22,11 @@ const createLovePostBase = z.object({
   toGender: gender,
   content,
 });
+const createCommentBase = z.object({
+  postId: z.string(),
+  content,
+});
+
 const nameWhenAnonymous = z.object({
   anonymous: z.literal(true),
   name: z.literal(''),
@@ -36,4 +41,6 @@ export const wallSchema = {
   createAnonymousPost: createPostBase.merge(nameWhenAnonymous),
   createLovePost: createLovePostBase.merge(nameWhenNotAnonymous),
   createAnonymousLovePost: createLovePostBase.merge(nameWhenAnonymous),
+  createComment: createCommentBase.merge(nameWhenNotAnonymous),
+  createAnonymousComment: createCommentBase.merge(nameWhenAnonymous),
 };

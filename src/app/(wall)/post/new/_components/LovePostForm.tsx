@@ -3,7 +3,6 @@ import { Email } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef } from 'react';
 import {
   SelectElement,
   SwitchElement,
@@ -15,6 +14,7 @@ import {
 import { toast } from 'react-toastify';
 import { z } from 'zod';
 
+import { useWatchAnonymousAndCacheName } from '../../_helpers/use-watch-anonymous-and-cache-name';
 import { GENDERS, POSTER_NAME_LOCALSTORAGE_KEY } from '~/constants';
 import { wallSchema } from '~/server/api/schema/wall';
 import { api } from '~/trpc/react';
@@ -40,9 +40,7 @@ const schema = z.union([
 ]);
 
 export const LovePostForm = () => {
-  const { control, watch, handleSubmit, setValue, getValues } = useForm<
-    z.infer<typeof schema>
-  >({
+  const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: localStorage.getItem(POSTER_NAME_LOCALSTORAGE_KEY) ?? '',
@@ -53,19 +51,11 @@ export const LovePostForm = () => {
       anonymous: false,
     },
   });
+  const watchAnonymous = useWatchAnonymousAndCacheName(form);
 
-  const cacheFormName = useRef(getValues('name'));
-  const watchAnonymous = watch('anonymous');
-  useEffect(() => {
-    if (watchAnonymous) {
-      cacheFormName.current = getValues('name');
-      setValue('name', '');
-    } else {
-      setValue('name', cacheFormName.current);
-    }
-  }, [watchAnonymous]);
   const toPronoun =
-    GENDERS.find(({ value }) => value === watch('toGender'))?.pronoun ?? 'TA';
+    GENDERS.find(({ value }) => value === form.watch('toGender'))?.pronoun ??
+    'TA';
 
   const router = useRouter();
   const apiUtils = api.useUtils();
@@ -87,17 +77,17 @@ export const LovePostForm = () => {
       xs={12}
       component="form"
       spacing={2}
-      onSubmit={handleSubmit((formData) => {
+      onSubmit={form.handleSubmit((formData) => {
         createLovePost.mutate(formData);
       })}
     >
       <Grid item xs={12} md={watchAnonymous ? 6 : 4}>
-        <GenderSelect label="你的性别" control={control} name="gender" />
+        <GenderSelect label="你的性别" control={form.control} name="gender" />
       </Grid>
       {!watchAnonymous && (
         <Grid item xs={12} md={8}>
           <TextFieldElement
-            control={control}
+            control={form.control}
             name="name"
             label="你的名字"
             fullWidth
@@ -105,11 +95,11 @@ export const LovePostForm = () => {
         </Grid>
       )}
       <Grid item xs={12} md={watchAnonymous ? 6 : 4}>
-        <GenderSelect label="TA的性别" control={control} name="toGender" />
+        <GenderSelect label="TA的性别" control={form.control} name="toGender" />
       </Grid>
       <Grid item xs={12} md={watchAnonymous ? 12 : 8}>
         <TextFieldElement
-          control={control}
+          control={form.control}
           name="toName"
           label={`${toPronoun}的名字`}
           fullWidth
@@ -117,7 +107,7 @@ export const LovePostForm = () => {
       </Grid>
       <Grid item xs={12}>
         <TextFieldElement
-          control={control}
+          control={form.control}
           name="content"
           label="内容"
           fullWidth
@@ -126,7 +116,7 @@ export const LovePostForm = () => {
         />
       </Grid>
       <Grid item flexGrow={1}>
-        <SwitchElement control={control} name="anonymous" label="匿名" />
+        <SwitchElement control={form.control} name="anonymous" label="匿名" />
       </Grid>
       <Grid item>
         <LoadingButton

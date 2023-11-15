@@ -49,4 +49,38 @@ export const wallRouter = createTRPCRouter({
         data: { likes: { increment: 1 } },
       });
     }),
+  getComments: publicProcedure
+    .input(
+      z.object({
+        postId: z.string(),
+        cursor: z.number().nullish(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const comments = await ctx.db.comment.findMany({
+        where: { postId: input.postId },
+        take: PAGE_SIZE + 1,
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        orderBy: { createdAt: 'asc' },
+      });
+      let nextCursor: typeof input.cursor | undefined = undefined;
+      if (comments.length > PAGE_SIZE) {
+        const nextComment = comments.pop();
+        nextCursor = nextComment!.id;
+      }
+      return { comments, nextCursor };
+    }),
+  createComment: publicProcedure
+    .input(
+      z.union([wallSchema.createComment, wallSchema.createAnonymousComment]),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const { postId, ...data } = input;
+      return await ctx.db.comment.create({
+        data: {
+          ...data,
+          post: { connect: { id: postId } },
+        },
+      });
+    }),
 });

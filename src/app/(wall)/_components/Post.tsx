@@ -85,6 +85,8 @@ export type PostDataWithCommentsCount = PostData & {
 export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
   const isLovePost = post.category === 'love';
 
+  const router = useRouter();
+
   const likePostsStorage = getLikePostsStorage();
   const [isLiked, setIsLiked] = useState(likePostsStorage.includes(post.id));
   const apiUtils = api.useUtils();
@@ -105,6 +107,7 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
     },
     onSettled: async () => {
       await apiUtils.wall.getPosts.invalidate();
+      router.refresh();
     },
   });
 
@@ -135,7 +138,9 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
         <IconButton
           color={isLiked ? 'primary' : 'default'}
           onClick={() => {
-            !isLiked && addLike.mutate({ id: post.id });
+            if (!isLiked) {
+              addLike.mutate({ id: post.id });
+            }
           }}
         >
           <Badge badgeContent={post.likes} color="secondary">
@@ -151,7 +156,11 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
             color="secondary"
           />
         )}
-        <IconButton>
+        <IconButton
+          onClick={() => {
+            router.push(`/post/${post.id}`);
+          }}
+        >
           <Badge badgeContent={post._count.comments} color="secondary">
             <Comment />
           </Badge>
