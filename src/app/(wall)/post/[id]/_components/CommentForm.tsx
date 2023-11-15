@@ -42,7 +42,7 @@ export const CommentForm = ({ postId }: { postId: string }) => {
   const createComment = api.wall.createComment.useMutation({
     onSuccess: async () => {
       form.resetField('content');
-      await apiUtils.wall.getComments.invalidate();
+      await apiUtils.wall.getComments.invalidate({ postId });
       toast.success('评论成功！');
     },
   });
