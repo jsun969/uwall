@@ -23,7 +23,6 @@ export const Posts = ({
     { category },
     {
       initialData: initialGetPostsData,
-      staleTime: 30 * 1000,
       getNextPageParam: (lastPage) => lastPage.nextCursor,
     },
   );
