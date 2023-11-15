@@ -45,3 +45,9 @@ model Config {
   id     Int    @id @default(1)
   school String @default("")
 }
+
+model FooterLink {
+  id   Int    @id @default(autoincrement())
+  name String
+  link String
+}

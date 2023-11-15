@@ -1,4 +1,7 @@
 import { Box, Link, Typography } from '@mui/material';
+import React from 'react';
+
+import { db } from '~/server/db';
 
 type YiyanResponse = {
   hitokoto: string;
@@ -16,18 +19,29 @@ const fetchYiyan = async () => {
 
 export const Footer = async () => {
   const yiyan = await fetchYiyan();
+  const footerLinks = await db.footerLink.findMany();
 
   return (
     <Box
       sx={{
+        my: 1,
+        px: 2,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        my: 1,
         color: 'text.secondary',
+        textAlign: 'center',
       }}
     >
       <Typography variant="caption">{yiyan}</Typography>
+      <Typography variant="caption">
+        {footerLinks.map(({ name, link, id }, i) => (
+          <React.Fragment key={id}>
+            <Link href={link}>{name}</Link>
+            {i !== footerLinks.length - 1 && ` / `}
+          </React.Fragment>
+        ))}
+      </Typography>
       <Typography variant="caption">
         Powered by <Link href="https://github.com/jsun969/uwall">uwall</Link>
       </Typography>

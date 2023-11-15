@@ -26,7 +26,7 @@ export const AdminHeader = () => {
   });
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{ mb: 4 }}>
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           管理员后台

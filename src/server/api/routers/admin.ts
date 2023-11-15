@@ -10,4 +10,19 @@ export const adminRouter = createTRPCRouter({
         data: input,
       });
     }),
+  setFooterLinks: adminProcedure
+    .input(adminSchema.setFooterLinks)
+    .mutation(async ({ input, ctx }) => {
+      const deleteMany = ctx.db.footerLink.deleteMany({});
+      const insertValues = input.links
+        .map(({ name, link }) => `('${name}', '${link}')`)
+        .join(',\n\t');
+      const query = `
+        INSERT INTO \`FooterLink\` (name, link) VALUES
+        ${insertValues};
+      `;
+      const createMany = ctx.db.$executeRawUnsafe(query);
+      await ctx.db.$transaction([deleteMany, createMany]);
+      return { success: true };
+    }),
 });
