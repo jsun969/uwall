@@ -50,7 +50,14 @@ export const CommentForm = ({ postId }: { postId: string }) => {
   const [isPinned, setIsPinned] = useState(true);
 
   return (
-    <Card sx={{ p: 2, position: isPinned ? 'sticky' : 'static', bottom: 4 }}>
+    <Card
+      sx={{
+        p: 2,
+        position: isPinned ? 'sticky' : 'static',
+        bottom: 4,
+        zIndex: 999,
+      }}
+    >
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Typography sx={{ mb: 1 }} fontWeight="bold">
           添加新评论

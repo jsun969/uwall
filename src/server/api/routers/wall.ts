@@ -83,4 +83,12 @@ export const wallRouter = createTRPCRouter({
         },
       });
     }),
+  addCommentLike: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.comment.update({
+        where: { id: input.id },
+        data: { likes: { increment: 1 } },
+      });
+    }),
 });

@@ -37,8 +37,8 @@ model Comment {
   anonymous Boolean
   content   String
 
-  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String?
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
 }
 
 model Config {
