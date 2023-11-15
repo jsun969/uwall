@@ -7,11 +7,11 @@ export const InitialPosts = async ({
 }: {
   category?: CategoryValue;
 }) => {
-  const getPost = await api.wall.getPosts.query({
+  const initialPosts = await api.wall.getPosts.query({
     category,
   });
   const initialGetPostsData = {
-    pages: [getPost],
+    pages: [initialPosts],
     pageParams: [],
   } satisfies InitialGetPostsData;
 
