@@ -101,10 +101,10 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
       toast.error(`为 ${post.anonymous ? '匿名' : post.name} 点赞失败`);
     },
     onSuccess: (data) => {
-      const newlikePostsStorage = [...likePostsStorage, data.id];
+      const newLikePostsStorage = [...likePostsStorage, data.id];
       localStorage.setItem(
         LIKE_POSTS_LOCALSTORAGE_KEY,
-        JSON.stringify(newlikePostsStorage),
+        JSON.stringify(newLikePostsStorage),
       );
     },
     onSettled: async () => {
@@ -145,7 +145,7 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
               }
             }}
           >
-            <Badge badgeContent={post.likes} color="secondary">
+            <Badge badgeContent={post.likes} max={999} color="secondary">
               <ThumbUp />
             </Badge>
           </IconButton>
@@ -165,7 +165,11 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
               router.push(`/post/${post.id}`);
             }}
           >
-            <Badge badgeContent={post._count.comments} color="secondary">
+            <Badge
+              badgeContent={post._count.comments}
+              max={999}
+              color="secondary"
+            >
               <Comment />
             </Badge>
           </IconButton>
