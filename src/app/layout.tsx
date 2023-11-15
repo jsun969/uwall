@@ -2,6 +2,7 @@ import { CssBaseline } from '@mui/material';
 import { type Metadata } from 'next';
 import { headers } from 'next/headers';
 
+import { Footer } from './_components/Footer';
 import { ConfirmProvider } from '~/providers/ConfirmProvider';
 import { MuiThemeProvider } from '~/providers/MuiThemeProvider';
 import { Toast } from '~/providers/Toast';
@@ -27,7 +28,10 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <CssBaseline />
         <TRPCReactProvider headers={headers()}>
           <MuiThemeProvider>
-            <ConfirmProvider>{children}</ConfirmProvider>
+            <ConfirmProvider>
+              {children}
+              <Footer />
+            </ConfirmProvider>
             <Toast />
           </MuiThemeProvider>
         </TRPCReactProvider>
