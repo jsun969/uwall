@@ -1,8 +1,17 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { PushPin } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
-import { Card, Grid } from '@mui/material';
+import {
+  Box,
+  Card,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+} from '@mui/material';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { SwitchElement, TextFieldElement } from 'react-hook-form-mui';
 import { toast } from 'react-toastify';
@@ -38,8 +47,25 @@ export const CommentForm = ({ postId }: { postId: string }) => {
     },
   });
 
+  const [isPinned, setIsPinned] = useState(true);
+
   return (
-    <Card sx={{ px: 2, pb: 2, pt: 1 }}>
+    <Card sx={{ p: 2, position: isPinned ? 'sticky' : 'static', bottom: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Typography sx={{ mb: 1 }} fontWeight="bold">
+          添加新评论
+        </Typography>
+        <Tooltip title={isPinned ? '取消固定' : '固定'}>
+          <IconButton
+            onClick={() => {
+              setIsPinned((pin) => !pin);
+            }}
+            color={isPinned ? 'secondary' : 'default'}
+          >
+            <PushPin />
+          </IconButton>
+        </Tooltip>
+      </Box>
       <Grid
         container
         component="form"
