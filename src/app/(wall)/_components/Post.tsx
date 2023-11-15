@@ -108,7 +108,6 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
     },
     onSettled: async () => {
       await apiUtils.wall.getPosts.invalidate();
-      router.refresh();
     },
   });
 

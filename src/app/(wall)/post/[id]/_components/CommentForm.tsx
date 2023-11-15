@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid } from '@mui/material';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { SwitchElement, TextFieldElement } from 'react-hook-form-mui';
 import { toast } from 'react-toastify';
@@ -30,13 +29,11 @@ export const CommentForm = ({ postId }: { postId: string }) => {
   });
   const watchAnonymous = useWatchAnonymousAndCacheName(form);
 
-  const router = useRouter();
   const apiUtils = api.useUtils();
   const createComment = api.wall.createComment.useMutation({
     onSuccess: async () => {
       form.resetField('content');
       await apiUtils.wall.getComments.invalidate();
-      router.refresh();
       toast.success('评论成功！');
     },
   });
