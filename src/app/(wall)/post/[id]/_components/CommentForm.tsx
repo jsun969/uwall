@@ -60,7 +60,7 @@ export const CommentForm = ({ postId }: { postId: string }) => {
             onClick={() => {
               setIsPinned((pin) => !pin);
             }}
-            color={isPinned ? 'secondary' : 'default'}
+            color={isPinned ? 'primary' : 'default'}
           >
             <PushPin />
           </IconButton>
