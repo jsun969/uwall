@@ -71,7 +71,8 @@ const Name = ({ post }: { post: PostData }) => {
 };
 
 const getLikePostsStorage = () => {
-  const likePostsStoragePlainData = localStorage.getItem(
+  // FIXME: ReferenceError: localStorage is not defined
+  const likePostsStoragePlainData = localStorage?.getItem(
     LIKE_POSTS_LOCALSTORAGE_KEY,
   );
   return likePostsStoragePlainData
