@@ -9,6 +9,7 @@ import {
   CardContent,
   Chip,
   IconButton,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { type Post as PostData } from '@prisma/client';
@@ -135,18 +136,20 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <IconButton
-          color={isLiked ? 'primary' : 'default'}
-          onClick={() => {
-            if (!isLiked) {
-              addLike.mutate({ id: post.id });
-            }
-          }}
-        >
-          <Badge badgeContent={post.likes} color="secondary">
-            <ThumbUp />
-          </Badge>
-        </IconButton>
+        <Tooltip title="点赞">
+          <IconButton
+            color={isLiked ? 'primary' : 'default'}
+            onClick={() => {
+              if (!isLiked) {
+                addLike.mutate({ id: post.id });
+              }
+            }}
+          >
+            <Badge badgeContent={post.likes} color="secondary">
+              <ThumbUp />
+            </Badge>
+          </IconButton>
+        </Tooltip>
         {post.anonymous && (
           <Chip
             label="匿名"
@@ -156,15 +159,17 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
             color="secondary"
           />
         )}
-        <IconButton
-          onClick={() => {
-            router.push(`/post/${post.id}`);
-          }}
-        >
-          <Badge badgeContent={post._count.comments} color="secondary">
-            <Comment />
-          </Badge>
-        </IconButton>
+        <Tooltip title="查看评论">
+          <IconButton
+            onClick={() => {
+              router.push(`/post/${post.id}`);
+            }}
+          >
+            <Badge badgeContent={post._count.comments} color="secondary">
+              <Comment />
+            </Badge>
+          </IconButton>
+        </Tooltip>
       </CardActions>
     </Card>
   );
