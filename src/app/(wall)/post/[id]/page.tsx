@@ -46,12 +46,10 @@ const PostPage = async ({ params }: PostPageProps) => {
   return (
     <Stack spacing={2}>
       <Post post={post} />
-      {initialComments.comments.length !== 0 && (
-        <Comments
-          initialGetCommentsData={initialGetCommentsData}
-          postId={params.id}
-        />
-      )}
+      <Comments
+        initialGetCommentsData={initialGetCommentsData}
+        postId={params.id}
+      />
       <CommentForm postId={params.id} />
     </Stack>
   );

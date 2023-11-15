@@ -41,6 +41,8 @@ export const Comments = ({
   const commentsInAllPages =
     getComments.data?.pages.flatMap(({ comments }) => comments) ?? [];
 
+  if (commentsInAllPages.length === 0) return <></>;
+
   const likeCommentsStorage = getLikeCommentsStorage();
 
   return (
