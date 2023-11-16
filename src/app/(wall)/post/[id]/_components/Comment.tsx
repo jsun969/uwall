@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 
 import { LIKE_COMMENTS_LOCALSTORAGE_KEY } from '~/constants';
 import { useConfirm } from '~/hooks/use-confirm';
+import { useIsAdmin } from '~/hooks/use-is-admin';
 import { api } from '~/trpc/react';
 
 interface CommentProps {
@@ -103,6 +104,8 @@ export const Comment = ({
   index,
   likeCommentsStorage,
 }: CommentProps) => {
+  const isAdmin = useIsAdmin();
+
   return (
     <>
       <Box sx={{ p: 2 }}>
@@ -125,7 +128,9 @@ export const Comment = ({
               comment={comment}
               likeCommentsStorage={likeCommentsStorage}
             />
-            <DeleteButton id={comment.id} postId={comment.postId} />
+            {isAdmin && (
+              <DeleteButton id={comment.id} postId={comment.postId} />
+            )}
           </Box>
         </Box>
         <Typography sx={{ wordBreak: 'break-word' }}>
