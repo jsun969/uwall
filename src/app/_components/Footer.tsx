@@ -40,13 +40,18 @@ export const Footer = async () => {
       <Typography variant="caption">
         {footerLinks.map(({ name, link, id }, i) => (
           <React.Fragment key={id}>
-            <Link href={link}>{name}</Link>
+            <Link href={link} target="_blank">
+              {name}
+            </Link>
             {i !== footerLinks.length - 1 && ` / `}
           </React.Fragment>
         ))}
       </Typography>
       <Typography variant="caption">
-        Powered by <Link href="https://github.com/jsun969/uwall">uwall</Link>
+        Powered by{' '}
+        <Link href="https://github.com/jsun969/uwall" target="_blank">
+          uwall
+        </Link>
       </Typography>
     </Box>
   );
