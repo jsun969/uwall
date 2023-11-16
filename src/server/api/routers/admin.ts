@@ -14,6 +14,10 @@ export const adminRouter = createTRPCRouter({
     .input(adminSchema.setFooterLinks)
     .mutation(async ({ input, ctx }) => {
       const deleteMany = ctx.db.footerLink.deleteMany({});
+      if (input.links.length === 0) {
+        await deleteMany;
+        return { success: true };
+      }
       const insertValues = input.links
         .map(({ name, link }) => `('${name}', '${link}')`)
         .join(',\n\t');
