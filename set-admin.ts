@@ -15,9 +15,16 @@ await passwordInput({
 });
 const passwordHash = await argon2.hash(password);
 
+const shuffleString = (str: string) =>
+  [...str].sort(() => Math.random() - 0.5).join('');
+const alphabet =
+  'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const sqidsAlphabet = shuffleString(alphabet);
+
 const env = `ADMIN_USERNAME = ${username}
 ADMIN_PASSWORD_HASH = ${passwordHash.replaceAll('$', '\\$')}
-JWT_SECRET_KEY = ${nanoid()}`;
+JWT_SECRET_KEY = ${nanoid()}
+NEXT_PUBLIC_SQIDS_ALPHABET = ${sqidsAlphabet}`;
 fs.writeFileSync('./.env', env);
 
 console.log('✅ 设置成功！');

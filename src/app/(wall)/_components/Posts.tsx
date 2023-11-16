@@ -10,7 +10,7 @@ import { api } from '~/trpc/react';
 
 export type InitialGetPostsData = InfiniteData<{
   posts: PostDataWithCommentsCount[];
-  nextCursor: string | undefined;
+  nextCursor: number | undefined;
 }>;
 export const Posts = ({
   initialGetPostsData,

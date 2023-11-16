@@ -24,6 +24,7 @@ import {
   GENDERS,
   LIKE_POSTS_LOCALSTORAGE_KEY,
 } from '~/constants';
+import { sqids } from '~/lib/sqids';
 import { api } from '~/trpc/react';
 
 const CategoryChip = ({ categoryValue }: { categoryValue: string }) => {
@@ -77,7 +78,7 @@ const getLikePostsStorage = () => {
     LIKE_POSTS_LOCALSTORAGE_KEY,
   );
   return likePostsStoragePlainData
-    ? (JSON.parse(likePostsStoragePlainData) as string[])
+    ? (JSON.parse(likePostsStoragePlainData) as number[])
     : [];
 };
 
@@ -108,6 +109,7 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
       );
     },
     onSettled: async () => {
+      router.refresh();
       await apiUtils.wall.getPosts.invalidate();
     },
   });
@@ -162,7 +164,8 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
         <Tooltip title="查看评论">
           <IconButton
             onClick={() => {
-              router.push(`/post/${post.id}`);
+              const id = sqids.encode([post.id]);
+              router.push(`/post/${id}`);
             }}
           >
             <Badge

@@ -27,7 +27,7 @@ const schema = z.union([
   wallSchema.createAnonymousComment.omit({ postId: true }),
 ]);
 
-export const CommentForm = ({ postId }: { postId: string }) => {
+export const CommentForm = ({ postId }: { postId: number }) => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {

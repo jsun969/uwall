@@ -20,7 +20,7 @@ export const wallRouter = createTRPCRouter({
   getPosts: publicProcedure
     .input(
       z.object({
-        cursor: z.string().nullish(),
+        cursor: z.number().nullish(),
         category: z.string().optional(),
       }),
     )
@@ -42,7 +42,7 @@ export const wallRouter = createTRPCRouter({
       return { posts, nextCursor };
     }),
   addLike: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.number() }))
     .mutation(async ({ input, ctx }) => {
       return await ctx.db.post.update({
         where: { id: input.id },
@@ -52,7 +52,7 @@ export const wallRouter = createTRPCRouter({
   getComments: publicProcedure
     .input(
       z.object({
-        postId: z.string(),
+        postId: z.number(),
         cursor: z.number().nullish(),
       }),
     )

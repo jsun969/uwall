@@ -29,7 +29,7 @@ export const Comments = ({
   postId,
 }: {
   initialGetCommentsData: InitialGetCommentsData;
-  postId: string;
+  postId: number;
 }) => {
   const getComments = api.wall.getComments.useInfiniteQuery(
     { postId },

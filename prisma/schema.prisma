@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Post {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
   category  String
@@ -37,8 +37,8 @@ model Comment {
   anonymous Boolean
   content   String
 
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String
+  post   Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId Int
 }
 
 model Config {

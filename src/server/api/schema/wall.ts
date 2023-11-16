@@ -23,7 +23,7 @@ const createLovePostBase = z.object({
   content,
 });
 const createCommentBase = z.object({
-  postId: z.string(),
+  postId: z.number(),
   content,
 });
 
