@@ -13,7 +13,7 @@
     "prepare": "simple-git-hooks",
     "format": "prettier --write \"**/*.{js,ts,tsx,css,md}\"",
     "lint": "eslint \"**/*.{js,ts,tsx}\" --fix",
-    "set-admin": "SKIP_ENV_VALIDATION=true tsx ./set-admin.ts",
+    "gen-env": "SKIP_ENV_VALIDATION=true tsx ./gen-env.ts",
     "db:seed": "SKIP_ENV_VALIDATION=true tsx ./seed.ts"
   },
   "dependencies": {

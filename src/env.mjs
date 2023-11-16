@@ -3,6 +3,7 @@ import { z } from 'zod';
 
 export const env = createEnv({
   server: {
+    DATABASE_URL: z.string().url(),
     NODE_ENV: z
       .enum(['development', 'test', 'production'])
       .default('development'),
@@ -14,6 +15,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SQIDS_ALPHABET: z.string(),
   },
   runtimeEnv: {
+    DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     ADMIN_USERNAME: process.env.ADMIN_USERNAME,
     ADMIN_PASSWORD_HASH: process.env.ADMIN_PASSWORD_HASH,

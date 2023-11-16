@@ -21,10 +21,11 @@ const alphabet =
   'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const sqidsAlphabet = shuffleString(alphabet);
 
-const env = `ADMIN_USERNAME = ${username}
+const env = `DATABASE_URL = file:./db.sqlite
+ADMIN_USERNAME = ${username}
 ADMIN_PASSWORD_HASH = ${passwordHash.replaceAll('$', '\\$')}
 JWT_SECRET_KEY = ${nanoid()}
 NEXT_PUBLIC_SQIDS_ALPHABET = ${sqidsAlphabet}`;
 fs.writeFileSync('./.env', env);
 
-console.log('✅ 设置成功！');
+console.log('✅ 生成成功！');
