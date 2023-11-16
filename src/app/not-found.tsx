@@ -9,12 +9,12 @@ const NotFound = () => {
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        minHeight: '100vh',
         gap: 4,
+        height: '70vh',
       }}
     >
-      <Image src="/die.svg" width={100} height={100} alt="Not found image" />
-      <Typography variant="h4" component="div">
+      <Image src="/die.svg" width={100} height={100} alt="Not found" />
+      <Typography variant="h4" component="div" textAlign="center">
         404 - 页面未找到
       </Typography>
       <Button href="/" variant="contained" size="large">
