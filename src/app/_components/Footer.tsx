@@ -51,7 +51,8 @@ export const Footer = async () => {
         Powered by{' '}
         <Link href="https://github.com/jsun969/uwall" target="_blank">
           uwall
-        </Link>
+        </Link>{' '}
+        {'v' + process.env.npm_package_version}
       </Typography>
     </Box>
   );
