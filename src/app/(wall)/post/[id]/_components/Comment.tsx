@@ -21,11 +21,13 @@ interface CommentProps {
   likeCommentsStorage: number[];
 }
 
-export const Comment = ({
+const LikeButton = ({
   comment,
-  index,
   likeCommentsStorage,
-}: CommentProps) => {
+}: {
+  comment: CommentData;
+  likeCommentsStorage: number[];
+}) => {
   const [isLiked, setIsLiked] = useState(
     likeCommentsStorage.includes(comment.id),
   );
@@ -51,6 +53,30 @@ export const Comment = ({
   });
 
   return (
+    <Tooltip title="点赞">
+      <IconButton
+        color={isLiked ? 'primary' : 'default'}
+        onClick={() => {
+          if (!isLiked) {
+            addCommentLike.mutate({ id: comment.id });
+          }
+        }}
+        size="small"
+      >
+        <Badge badgeContent={comment.likes} color="secondary">
+          <ThumbUp fontSize="small" />
+        </Badge>
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+export const Comment = ({
+  comment,
+  index,
+  likeCommentsStorage,
+}: CommentProps) => {
+  return (
     <>
       <Box sx={{ p: 2 }}>
         <Box
@@ -68,21 +94,10 @@ export const Comment = ({
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
             <Typography color="text.secondary">#{index}</Typography>
-            <Tooltip title="点赞">
-              <IconButton
-                color={isLiked ? 'primary' : 'default'}
-                onClick={() => {
-                  if (!isLiked) {
-                    addCommentLike.mutate({ id: comment.id });
-                  }
-                }}
-                size="small"
-              >
-                <Badge badgeContent={comment.likes} color="secondary">
-                  <ThumbUp fontSize="small" />
-                </Badge>
-              </IconButton>
-            </Tooltip>
+            <LikeButton
+              comment={comment}
+              likeCommentsStorage={likeCommentsStorage}
+            />
           </Box>
         </Box>
         <Typography sx={{ wordBreak: 'break-word' }}>

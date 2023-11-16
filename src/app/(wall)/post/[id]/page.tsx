@@ -54,7 +54,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   return (
     <Stack spacing={2}>
-      <Post post={post} />
+      <Post post={post} likePostsStorage={[]} />
       <Comments
         initialGetCommentsData={initialGetCommentsData}
         postId={postId}

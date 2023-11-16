@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
+import { getLikesStorage } from '../_helpers/get-likes-storage';
 import {
   CATEGORIES,
   DEFAULT_GENDER_COLOR,
@@ -72,25 +73,19 @@ const Name = ({ post }: { post: PostData }) => {
   );
 };
 
-const getLikePostsStorage = () => {
-  // FIXME: ReferenceError: localStorage is not defined
-  const likePostsStoragePlainData = localStorage?.getItem(
-    LIKE_POSTS_LOCALSTORAGE_KEY,
-  );
-  return likePostsStoragePlainData
-    ? (JSON.parse(likePostsStoragePlainData) as number[])
-    : [];
-};
-
-export type PostDataWithCommentsCount = PostData & {
-  _count: { comments: number };
-};
-export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
-  const isLovePost = post.category === 'love';
-
+const LikeButton = ({
+  post,
+  likePostsStorage: propLikePostsStorage,
+}: {
+  post: PostData;
+  likePostsStorage: number[];
+}) => {
   const router = useRouter();
-
-  const likePostsStorage = getLikePostsStorage();
+  // To avoid storage cannot be get in comment page
+  const likePostsStorage =
+    propLikePostsStorage.length === 0
+      ? getLikesStorage('post')
+      : propLikePostsStorage;
   const [isLiked, setIsLiked] = useState(likePostsStorage.includes(post.id));
   const apiUtils = api.useUtils();
   const addLike = api.wall.addLike.useMutation({
@@ -113,6 +108,38 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
       await apiUtils.wall.getPosts.invalidate();
     },
   });
+
+  return (
+    <Tooltip title="点赞">
+      <IconButton
+        color={isLiked ? 'primary' : 'default'}
+        onClick={() => {
+          if (!isLiked) {
+            addLike.mutate({ id: post.id });
+          }
+        }}
+      >
+        <Badge badgeContent={post.likes} max={999} color="secondary">
+          <ThumbUp />
+        </Badge>
+      </IconButton>
+    </Tooltip>
+  );
+};
+
+export type PostDataWithCommentsCount = PostData & {
+  _count: { comments: number };
+};
+export const Post = ({
+  post,
+  likePostsStorage,
+}: {
+  post: PostDataWithCommentsCount;
+  likePostsStorage: number[];
+}) => {
+  const isLovePost = post.category === 'love';
+
+  const router = useRouter();
 
   return (
     <Card>
@@ -138,20 +165,7 @@ export const Post = ({ post }: { post: PostDataWithCommentsCount }) => {
         </Typography>
       </CardContent>
       <CardActions sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Tooltip title="点赞">
-          <IconButton
-            color={isLiked ? 'primary' : 'default'}
-            onClick={() => {
-              if (!isLiked) {
-                addLike.mutate({ id: post.id });
-              }
-            }}
-          >
-            <Badge badgeContent={post.likes} max={999} color="secondary">
-              <ThumbUp />
-            </Badge>
-          </IconButton>
-        </Tooltip>
+        <LikeButton post={post} likePostsStorage={likePostsStorage} />
         {post.anonymous && (
           <Chip
             label="匿名"

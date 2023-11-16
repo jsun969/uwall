@@ -4,6 +4,7 @@ import { LoadingButton, Masonry } from '@mui/lab';
 import { Box } from '@mui/material';
 import { type InfiniteData } from '@tanstack/react-query';
 
+import { getLikesStorage } from '../_helpers/get-likes-storage';
 import { Post, type PostDataWithCommentsCount } from './Post';
 import { type CategoryValue } from '~/constants';
 import { api } from '~/trpc/react';
@@ -29,11 +30,13 @@ export const Posts = ({
   const postsInAllPages =
     getPosts.data?.pages.flatMap(({ posts }) => posts) ?? [];
 
+  const likePostsStorage = getLikesStorage('post');
+
   return (
     <Box sx={{ pl: 2 }}>
       <Masonry spacing={2} columns={{ lg: 3, sm: 2, xs: 1 }}>
         {postsInAllPages.map((post) => (
-          <Post post={post} key={post.id} />
+          <Post post={post} key={post.id} likePostsStorage={likePostsStorage} />
         ))}
       </Masonry>
       {getPosts.hasNextPage && (

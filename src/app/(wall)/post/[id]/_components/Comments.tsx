@@ -6,23 +6,13 @@ import { type Comment as CommentData } from '@prisma/client';
 import { type InfiniteData } from '@tanstack/react-query';
 
 import { Comment } from './Comment';
-import { LIKE_COMMENTS_LOCALSTORAGE_KEY } from '~/constants';
+import { getLikesStorage } from '~/app/(wall)/_helpers/get-likes-storage';
 import { api } from '~/trpc/react';
 
 export type InitialGetCommentsData = InfiniteData<{
   comments: CommentData[];
   nextCursor: number | undefined;
 }>;
-
-const getLikeCommentsStorage = () => {
-  // FIXME: ReferenceError: localStorage is not defined
-  const likeCommentsStoragePlainData = localStorage?.getItem(
-    LIKE_COMMENTS_LOCALSTORAGE_KEY,
-  );
-  return likeCommentsStoragePlainData
-    ? (JSON.parse(likeCommentsStoragePlainData) as number[])
-    : [];
-};
 
 export const Comments = ({
   initialGetCommentsData,
@@ -43,7 +33,7 @@ export const Comments = ({
 
   if (commentsInAllPages.length === 0) return <></>;
 
-  const likeCommentsStorage = getLikeCommentsStorage();
+  const likeCommentsStorage = getLikesStorage('comment');
 
   return (
     <Card>
