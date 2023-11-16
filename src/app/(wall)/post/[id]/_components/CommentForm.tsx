@@ -11,6 +11,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { SwitchElement, TextFieldElement } from 'react-hook-form-mui';
@@ -38,10 +39,12 @@ export const CommentForm = ({ postId }: { postId: number }) => {
   });
   const watchAnonymous = useWatchAnonymousAndCacheName(form);
 
+  const router = useRouter();
   const apiUtils = api.useUtils();
   const createComment = api.wall.createComment.useMutation({
     onSuccess: async () => {
       form.resetField('content');
+      router.refresh();
       await apiUtils.wall.getComments.invalidate({ postId });
       toast.success('评论成功！');
     },
