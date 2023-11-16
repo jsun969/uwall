@@ -1,4 +1,4 @@
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Divider, Link, Typography } from '@mui/material';
 import React from 'react';
 
 import { db } from '~/server/db';
@@ -24,7 +24,9 @@ export const Footer = async () => {
   return (
     <Box
       sx={{
-        my: 1,
+        position: 'absolute',
+        bottom: 4,
+        width: '100%',
         px: 2,
         display: 'flex',
         flexDirection: 'column',
@@ -33,6 +35,7 @@ export const Footer = async () => {
         textAlign: 'center',
       }}
     >
+      <Divider sx={{ width: '100%', mb: 1 }} />
       <Typography variant="caption">{yiyan}</Typography>
       <Typography variant="caption">
         {footerLinks.map(({ name, link, id }, i) => (

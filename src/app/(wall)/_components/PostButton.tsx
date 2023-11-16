@@ -21,7 +21,7 @@ export const PostButton = () => {
   return (
     <SpeedDial
       ariaLabel="Post button"
-      sx={{ position: 'fixed', bottom: 16, right: 16 }}
+      sx={{ position: 'fixed', bottom: 8, right: 8 }}
       icon={<SpeedDialIcon openIcon={<Edit />} />}
       onClose={() => {
         setOpen(false);
