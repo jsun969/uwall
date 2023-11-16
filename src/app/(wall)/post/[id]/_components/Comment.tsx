@@ -1,4 +1,4 @@
-import { ThumbUp } from '@mui/icons-material';
+import { Delete, ThumbUp } from '@mui/icons-material';
 import {
   Badge,
   Box,
@@ -9,10 +9,12 @@ import {
 } from '@mui/material';
 import { type Comment as CommentData } from '@prisma/client';
 import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { LIKE_COMMENTS_LOCALSTORAGE_KEY } from '~/constants';
+import { useConfirm } from '~/hooks/use-confirm';
 import { api } from '~/trpc/react';
 
 interface CommentProps {
@@ -71,6 +73,31 @@ const LikeButton = ({
   );
 };
 
+const DeleteButton = ({ id, postId }: { id: number; postId: number }) => {
+  const router = useRouter();
+  const apiUtils = api.useUtils();
+  const deleteComment = api.admin.deleteComment.useMutation({
+    onSuccess: async () => {
+      router.refresh();
+      await apiUtils.wall.getComments.invalidate({ postId });
+      toast.info('评论删除成功');
+    },
+  });
+  const confirmDelete = useConfirm({
+    title: '确定删除这条评论？',
+    description: '删除后无法恢复',
+    onConfirm: () => {
+      deleteComment.mutate({ id });
+    },
+  });
+
+  return (
+    <IconButton onClick={confirmDelete} size="small">
+      <Delete fontSize="medium" />
+    </IconButton>
+  );
+};
+
 export const Comment = ({
   comment,
   index,
@@ -98,6 +125,7 @@ export const Comment = ({
               comment={comment}
               likeCommentsStorage={likeCommentsStorage}
             />
+            <DeleteButton id={comment.id} postId={comment.postId} />
           </Box>
         </Box>
         <Typography sx={{ wordBreak: 'break-word' }}>

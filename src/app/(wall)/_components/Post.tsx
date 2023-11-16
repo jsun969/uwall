@@ -1,6 +1,12 @@
 'use client';
 
-import { Comment, Forward, PsychologyAlt, ThumbUp } from '@mui/icons-material';
+import {
+  Comment,
+  Delete,
+  Forward,
+  PsychologyAlt,
+  ThumbUp,
+} from '@mui/icons-material';
 import {
   Badge,
   Box,
@@ -25,6 +31,8 @@ import {
   GENDERS,
   LIKE_POSTS_LOCALSTORAGE_KEY,
 } from '~/constants';
+import { useConfirm } from '~/hooks/use-confirm';
+import { useIsAdmin } from '~/hooks/use-is-admin';
 import { sqids } from '~/lib/sqids';
 import { api } from '~/trpc/react';
 
@@ -127,6 +135,31 @@ const LikeButton = ({
   );
 };
 
+const DeleteButton = ({ id }: { id: number }) => {
+  const router = useRouter();
+  const apiUtils = api.useUtils();
+  const deletePost = api.admin.deletePost.useMutation({
+    onSuccess: async () => {
+      await apiUtils.wall.getPosts.invalidate();
+      toast.info('帖子删除成功');
+    },
+  });
+  const confirmDelete = useConfirm({
+    title: '确定删除这条帖子及其评论？',
+    description: '删除后无法恢复',
+    onConfirm: () => {
+      router.refresh();
+      deletePost.mutate({ id });
+    },
+  });
+
+  return (
+    <IconButton onClick={confirmDelete}>
+      <Delete />
+    </IconButton>
+  );
+};
+
 export type PostDataWithCommentsCount = PostData & {
   _count: { comments: number };
 };
@@ -138,6 +171,7 @@ export const Post = ({
   likePostsStorage: number[];
 }) => {
   const isLovePost = post.category === 'love';
+  const isAdmin = useIsAdmin();
 
   const router = useRouter();
 
@@ -155,6 +189,7 @@ export const Post = ({
           <Typography color="text.secondary" variant="subtitle2">
             {dayjs(post.createdAt).format('YYYY年M月D号 HH:mm')}
           </Typography>
+          {isAdmin && <DeleteButton id={post.id} />}
         </Box>
         {isLovePost ? <LoveNames post={post} /> : <Name post={post} />}
         <Typography

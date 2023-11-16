@@ -8,7 +8,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import cookie from 'js-cookie';
+import cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 
 import { ADMIN_TOKEN_COOKIE_NAME } from '~/constants';
@@ -20,7 +20,7 @@ export const AdminHeader = () => {
     title: '确定登出？',
     description: '你确定要退出登录吗？',
     onConfirm: () => {
-      cookie.remove(ADMIN_TOKEN_COOKIE_NAME);
+      cookies.remove(ADMIN_TOKEN_COOKIE_NAME);
       router.push('/admin/login');
     },
   });

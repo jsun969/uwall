@@ -1,7 +1,12 @@
+import { z } from 'zod';
+
 import { adminSchema } from '../schema/admin';
 import { adminProcedure, createTRPCRouter } from '../trpc';
 
 export const adminRouter = createTRPCRouter({
+  auth: adminProcedure.query(() => {
+    return { isAdmin: true };
+  }),
   updateConfig: adminProcedure
     .input(adminSchema.updateConfig)
     .mutation(async ({ input, ctx }) => {
@@ -28,5 +33,15 @@ export const adminRouter = createTRPCRouter({
       const createMany = ctx.db.$executeRawUnsafe(query);
       await ctx.db.$transaction([deleteMany, createMany]);
       return { success: true };
+    }),
+  deletePost: adminProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.post.delete({ where: input });
+    }),
+  deleteComment: adminProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input, ctx }) => {
+      return await ctx.db.comment.delete({ where: input });
     }),
 });
