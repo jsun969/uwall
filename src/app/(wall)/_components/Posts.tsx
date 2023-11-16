@@ -1,13 +1,31 @@
 'use client';
 
 import { LoadingButton, Masonry } from '@mui/lab';
-import { Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import { type InfiniteData } from '@tanstack/react-query';
+import Image from 'next/image';
 
 import { getLikesStorage } from '../_helpers/get-likes-storage';
 import { Post, type PostDataWithCommentsCount } from './Post';
 import { type CategoryValue } from '~/constants';
 import { api } from '~/trpc/react';
+
+const NoPost = () => {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
+    >
+      <Alert severity="info" sx={{ mb: 2 }}>
+        暂时没有帖子哦，点击右下角发送一条吧！
+      </Alert>
+      <Image src="/sleepy.svg" width={100} height={100} alt="No posts" />
+    </Box>
+  );
+};
 
 export type InitialGetPostsData = InfiniteData<{
   posts: PostDataWithCommentsCount[];
@@ -34,11 +52,19 @@ export const Posts = ({
 
   return (
     <Box sx={{ pl: 2 }}>
-      <Masonry spacing={2} columns={{ lg: 3, sm: 2, xs: 1 }}>
-        {postsInAllPages.map((post) => (
-          <Post post={post} key={post.id} likePostsStorage={likePostsStorage} />
-        ))}
-      </Masonry>
+      {postsInAllPages.length === 0 ? (
+        <NoPost />
+      ) : (
+        <Masonry spacing={2} columns={{ lg: 3, sm: 2, xs: 1 }}>
+          {postsInAllPages.map((post) => (
+            <Post
+              post={post}
+              key={post.id}
+              likePostsStorage={likePostsStorage}
+            />
+          ))}
+        </Masonry>
+      )}
       {getPosts.hasNextPage && (
         <Box sx={{ display: 'flex', justifyContent: 'center', my: 2 }}>
           <LoadingButton
