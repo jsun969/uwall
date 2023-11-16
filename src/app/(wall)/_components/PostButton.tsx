@@ -12,7 +12,7 @@ export const PostButton = () => {
   const router = useRouter();
 
   const pathname = usePathname();
-  const showPostButton = !pathname.includes('/post/new');
+  const showPostButton = !pathname.includes('/post/');
 
   if (!showPostButton) {
     return <></>;
