@@ -11,7 +11,9 @@ const KEYS = {
 
 export const getLikesStorage = (type: Type) => {
   const key = KEYS[type];
-  // FIXME: ReferenceError: localStorage is not defined
+  if (typeof window === 'undefined') {
+    return [];
+  }
   const likePostsStoragePlainData = localStorage?.getItem(key);
   return likePostsStoragePlainData
     ? (JSON.parse(likePostsStoragePlainData) as number[])
