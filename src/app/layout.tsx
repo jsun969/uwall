@@ -1,4 +1,4 @@
-import { Box, CssBaseline } from '@mui/material';
+import { Box } from '@mui/material';
 import { type Metadata } from 'next';
 import { headers } from 'next/headers';
 
@@ -25,7 +25,6 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="zh_CN">
       <body>
-        <CssBaseline />
         <TRPCReactProvider headers={headers()}>
           <MuiThemeProvider>
             <ConfirmProvider>

@@ -1,7 +1,9 @@
 'use client';
 
-import { ThemeProvider, createTheme } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { pink, purple } from '@mui/material/colors';
+
+import NextAppDirEmotionCacheProvider from './EmotionCacheProvider';
 
 const theme = createTheme({
   palette: {
@@ -15,5 +17,12 @@ export const MuiThemeProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return (
+    <NextAppDirEmotionCacheProvider options={{ key: 'mui' }}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </NextAppDirEmotionCacheProvider>
+  );
 };

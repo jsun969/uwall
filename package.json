@@ -17,6 +17,7 @@
     "db:seed": "SKIP_ENV_VALIDATION=true tsx ./seed.ts"
   },
   "dependencies": {
+    "@emotion/cache": "^11.11.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@hookform/resolvers": "^3.3.2",
