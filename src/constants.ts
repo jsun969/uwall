@@ -32,7 +32,7 @@ type Gender = {
   name: string;
   value: GenderValue;
   pronoun?: string;
-  color?: `#${string}`;
+  color?: string;
 };
 export const DEFAULT_GENDER_COLOR = '#000000';
 export const GENDERS: Gender[] = [
