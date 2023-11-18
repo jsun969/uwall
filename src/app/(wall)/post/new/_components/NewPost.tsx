@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import { LovePostForm } from './LovePostForm';
 import { PostForm } from './PostForm';
+import { CATEGORY_ICONS } from '~/app/(wall)/_components/category-icons';
 import { CATEGORIES, type CategoryValue } from '~/constants';
 
 export const NewPost = () => {
@@ -32,14 +33,17 @@ export const NewPost = () => {
             }}
             fullWidth
           >
-            {CATEGORIES.map(({ name, value, icon: Icon }) => (
-              <MenuItem value={value} key={value}>
-                <Box sx={{ display: 'flex', gap: 1 }}>
-                  <Icon color="action" />
-                  <div>{name}</div>
-                </Box>
-              </MenuItem>
-            ))}
+            {CATEGORIES.map(({ name, value }) => {
+              const Icon = CATEGORY_ICONS[value];
+              return (
+                <MenuItem value={value} key={value}>
+                  <Box sx={{ display: 'flex', gap: 1 }}>
+                    <Icon color="action" />
+                    <div>{name}</div>
+                  </Box>
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
       </Grid>

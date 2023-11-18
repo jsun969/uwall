@@ -1,11 +1,3 @@
-import {
-  Favorite,
-  Help,
-  Notifications,
-  People,
-  RecordVoiceOver,
-} from '@mui/icons-material';
-
 export const ADMIN_TOKEN_COOKIE_NAME = 'admin-token' as const;
 
 export const POSTER_NAME_LOCALSTORAGE_KEY = 'posterName' as const;
@@ -25,14 +17,13 @@ export type CategoryValue = (typeof CATEGORY_VALUES)[number];
 type Category = {
   name: string;
   value: CategoryValue;
-  icon: React.FunctionComponent;
 };
 export const CATEGORIES = [
-  { name: '表白', value: 'love', icon: Favorite },
-  { name: '吐槽', value: 'complaint', icon: RecordVoiceOver },
-  { name: '求助', value: 'help', icon: Help },
-  { name: '通知', value: 'notice', icon: Notifications },
-  { name: '扩列', value: 'expand', icon: People },
+  { name: '表白', value: 'love' },
+  { name: '吐槽', value: 'complaint' },
+  { name: '求助', value: 'help' },
+  { name: '通知', value: 'notice' },
+  { name: '扩列', value: 'expand' },
 ] satisfies Category[];
 
 export const GENDER_VALUES = ['secret', 'boy', 'girl', 'other'] as const;

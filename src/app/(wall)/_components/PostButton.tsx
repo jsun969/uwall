@@ -5,6 +5,7 @@ import { SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
+import { CATEGORY_ICONS } from './category-icons';
 import { CATEGORIES } from '~/constants';
 
 export const PostButton = () => {
@@ -31,17 +32,20 @@ export const PostButton = () => {
       }}
       open={open}
     >
-      {CATEGORIES.map(({ name, value, icon: Icon }) => (
-        <SpeedDialAction
-          key={value}
-          icon={<Icon />}
-          tooltipTitle={name}
-          tooltipOpen
-          onClick={() => {
-            router.push(`/post/new?category=${value}`);
-          }}
-        />
-      ))}
+      {CATEGORIES.map(({ name, value }) => {
+        const Icon = CATEGORY_ICONS[value];
+        return (
+          <SpeedDialAction
+            key={value}
+            icon={<Icon />}
+            tooltipTitle={name}
+            tooltipOpen
+            onClick={() => {
+              router.push(`/post/new?category=${value}`);
+            }}
+          />
+        );
+      })}
     </SpeedDial>
   );
 };

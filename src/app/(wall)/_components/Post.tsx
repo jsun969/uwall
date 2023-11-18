@@ -25,6 +25,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { getLikesStorage } from '../_helpers/get-likes-storage';
+import { CATEGORY_ICONS } from './category-icons';
 import {
   CATEGORIES,
   DEFAULT_GENDER_COLOR,
@@ -43,7 +44,8 @@ const CategoryChip = ({ categoryValue }: { categoryValue: string }) => {
   if (!category) {
     return <Chip label="未知类型" />;
   }
-  const { name, icon: Icon, value } = category;
+  const { name, value } = category;
+  const Icon = CATEGORY_ICONS[value];
   return (
     <Chip
       label={name}
