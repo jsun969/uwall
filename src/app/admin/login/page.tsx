@@ -32,7 +32,7 @@ const AdminLoginPage = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        minHeight: '100vh',
+        minHeight: '70vh',
       }}
     >
       <Card sx={{ width: '100%', maxWidth: 300, mx: 2 }}>

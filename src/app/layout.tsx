@@ -28,7 +28,12 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <TRPCReactProvider headers={headers()}>
           <MuiThemeProvider>
             <ConfirmProvider>
-              <div style={{ position: 'relative', minHeight: '100vh' }}>
+              <div
+                style={{
+                  position: 'relative',
+                  minHeight: '100dvh',
+                }}
+              >
                 <Box sx={{ pb: 12 }}>{children}</Box>
                 <Footer />
               </div>
